@@ -1,0 +1,89 @@
+.table {
+  --bs-table-color: var(--bs-body-color);
+  --bs-table-bg: transparent;
+  --bs-table-hover-bg: rgba(var(--bs-primary-rgb), 0.05);
+  margin-bottom: 0;
+
+  thead {
+    th {
+      background: var(--bs-light);
+      border-bottom: 1px solid var(--bs-border-color);
+      color: var(--bs-body-color);
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 0.75rem 1rem;
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        padding: 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--bs-border-color);
+        color: var(--bs-body-color);
+        font-size: 0.875rem;
+
+        // 文件名列样式
+        &:first-child {
+          font-weight: 500;
+          
+          .btn-link {
+            color: var(--bs-body-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            
+            &:hover {
+              color: var(--bs-primary);
+            }
+          }
+        }
+
+        // 图标样式
+        i {
+          font-size: 1.1rem;
+          width: 1.5rem;
+          text-align: center;
+        }
+      }
+
+      &:hover {
+        background-color: var(--bs-table-hover-bg);
+      }
+    }
+  }
+}
+
+// 深色模式适配
+[data-bs-theme="dark"] {
+  .table {
+    thead th {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--bs-body-color);
+    }
+
+    tbody {
+      tr {
+        td {
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.05);
+        }
+      }
+    }
+  }
+}
+
+// 表格内的操作按钮样式
+.table-action-btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  border-radius: var(--bs-border-radius-sm);
+  
+  i {
+    font-size: 0.875rem;
+  }
+} 

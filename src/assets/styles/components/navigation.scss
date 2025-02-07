@@ -1,0 +1,44 @@
+/* 标签页样式 */
+.nav-tabs {
+  .nav-link {
+    color: var(--bs-secondary);
+    border: none;
+    padding: 0.5rem 1rem;
+    
+    &.active {
+      color: var(--bs-primary);
+      border-bottom: 2px solid var(--bs-primary);
+      background: none;
+    }
+    
+    &:hover:not(.active) {
+      border-bottom: 2px solid var(--bs-border-color);
+    }
+  }
+}
+
+/* 面包屑导航样式 */
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  
+  &-item {
+    + .breadcrumb-item::before {
+      content: "/"
+    }
+    
+    a {
+      color: var(--bs-primary);
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    
+    &.active {
+      color: var(--bs-secondary);
+    }
+  }
+} 

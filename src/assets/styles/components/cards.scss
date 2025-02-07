@@ -1,0 +1,12 @@
+.card {
+  border: none;
+  box-shadow: var(--bs-box-shadow);
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.card-clickable {
+  cursor: pointer;
+} 

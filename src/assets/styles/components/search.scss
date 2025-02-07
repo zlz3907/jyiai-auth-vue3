@@ -1,0 +1,121 @@
+.search-box {
+  max-width: 400px;
+  
+  .input-group {
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+      border-color: var(--bs-primary);
+    }
+  }
+  
+  .form-control {
+    border: none;
+    background-color: transparent;
+    padding-right: 2.5rem;
+    color: var(--bs-body-color);
+    
+    &::placeholder {
+      color: var(--bs-secondary);
+      opacity: 0.75;
+    }
+    
+    &:focus {
+      box-shadow: none;
+    }
+    
+    &:disabled {
+      background-color: transparent;
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+  
+  .input-group-text {
+    border: none;
+    padding-right: 0;
+    background-color: transparent;
+    color: var(--bs-secondary);
+  }
+  
+  .input-group:focus-within {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.1);
+  }
+  
+  .btn-link {
+    color: var(--bs-secondary);
+    opacity: 0.75;
+    padding: 0.25rem;
+    line-height: 1;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      color: var(--bs-primary);
+      opacity: 1;
+    }
+  }
+}
+
+.search-input {
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+  
+  &::-ms-clear {
+    display: none;
+  }
+}
+
+[data-bs-theme="dark"] {
+  .search-box {
+    .input-group {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+      
+      &:hover {
+        border-color: var(--bs-primary);
+        background-color: rgba(255, 255, 255, 0.08);
+      }
+      
+      &:focus-within {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: var(--bs-primary);
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.15);
+      }
+    }
+    
+    .form-control {
+      color: var(--bs-body-color);
+      
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      
+      &:disabled {
+        color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.02);
+        
+        &:hover {
+          cursor: not-allowed;
+        }
+      }
+    }
+    
+    .input-group-text {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .btn-link {
+      color: rgba(255, 255, 255, 0.5);
+      
+      &:hover {
+        color: var(--bs-primary);
+      }
+    }
+  }
+} 

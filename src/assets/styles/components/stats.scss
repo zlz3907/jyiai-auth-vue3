@@ -1,0 +1,29 @@
+.stat-icon-box {
+  background-color: rgba(var(--bs-primary-rgb), 0.1);
+  border-radius: var(--bs-border-radius-sm);
+  
+  i {
+    color: var(--bs-primary);
+  }
+  
+  &.bg-success-soft i {
+    color: var(--bs-success);
+  }
+  
+  &.bg-warning-soft i {
+    color: var(--bs-warning);
+  }
+}
+
+.stat-item {
+  &:hover {
+    background-color: var(--bs-light);
+    border-radius: var(--bs-border-radius);
+  }
+}
+
+[data-bs-theme="dark"] {
+  .stat-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+} 

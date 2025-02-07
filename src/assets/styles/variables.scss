@@ -1,0 +1,35 @@
+// 主题色定义
+:root {
+  // 主色
+  --bs-primary: #00A19C;
+  --bs-primary-rgb: 0, 161, 156;
+  --bs-secondary: #1A2B32;
+  --bs-success: #00C853;
+  --bs-info: #0091EA;
+  --bs-warning: #FFB300;
+  --bs-danger: #FF1744;
+  --bs-light: #F8F9FA;
+  --bs-dark: #1A2B32;
+
+  // 衍生色
+  --bs-primary-hover: #018783;
+  --bs-secondary-hover: #141F24;
+  
+  // 背景色
+  --bs-body-bg: #f8fafc;
+  
+  // 自定义渐变
+  --custom-gradient-start: #1A2B32;
+  --custom-gradient-end: #00A19C;
+  --custom-wave-color: #015C58;
+  
+  // 边框圆角
+  --bs-border-radius: 0.375rem;
+  --bs-border-radius-sm: 0.25rem;
+  --bs-border-radius-lg: 0.5rem;
+  
+  // 阴影
+  --bs-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --bs-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+  --bs-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+} 

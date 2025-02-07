@@ -1,18 +1,71 @@
 {
-  "name": "auto-vue3",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "@zhycit/jyiai-auth-vue3",
+  "version": "0.0.1",
+  "author": "ZHYCIT <service@zhycit.com> (https://zhycit.com)",
+  "description": "A reusable authentication component for frontend projects",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src/shims-vue.d.ts"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
+    "build:types": "vue-tsc --emitDeclarationOnly",
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.5.13"
+    "@popperjs/core": "^2.11.8",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
+    "axios": "^1.7.9",
+    "bootstrap": "^5.3.3",
+    "bootstrap-vue-next": "^0.26.23",
+    "crypto-js": "^4.2.0",
+    "pinia": "^2.3.1",
+    "vue": "^3.5.13",
+    "vue-i18n": "^11.1.0",
+    "vue-router": "^4.5.0",
+    "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.4",
+    "@types/node": "^20.11.24",
     "@vitejs/plugin-vue": "^5.2.1",
-    "vite": "^6.0.5"
-  }
+    "autoprefixer": "^10.4.20",
+    "less": "^4.2.2",
+    "postcss": "^8.4.35",
+    "sass": "^1.84.0",
+    "sass-loader": "^16.0.4",
+    "tailwindcss": "^4.0.4",
+    "typescript": "^5.3.3",
+    "vite": "^6.0.5",
+    "vite-plugin-dts": "^3.7.3",
+    "vue-tsc": "^1.8.27"
+  },
+  "peerDependencies": {
+    "pinia": "^2.3.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zlz3907/jyiai-auth-vue3.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zlz3907/jyiai-auth-vue3/issues"
+  },
+  "homepage": "https://github.com/zlz3907/jyiai-auth-vue3#readme",
+  "keywords": [
+    "auth",
+    "authentication",
+    "login",
+    "register",
+    "component",
+    "jyiai",
+    "zhycit"
+  ]
 }

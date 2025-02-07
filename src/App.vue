@@ -1,30 +1,38 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { useAuthStore } from '@/stores/auth'
+import { useUserStore } from '@/stores/user'
+import { onMounted } from 'vue'
+
+const authStore = useAuthStore()
+const userStore = useUserStore()
+
+onMounted(() => {
+  // 初始化时检查并恢复用户状态
+  const token = localStorage.getItem('token')
+  const userInfo = localStorage.getItem('userInfo')
+  
+  if (token && userInfo) {
+    try {
+      const parsedUserInfo = JSON.parse(userInfo)
+      userStore.setUserInfo(parsedUserInfo)
+      userStore.setToken(token)
+    } catch (e) {
+      console.error('Failed to parse user info:', e)
+    }
+  }
+})
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div id="app">
+    <router-view></router-view>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+<style>
+#app {
+  min-height: 100vh;
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
 }
 </style>

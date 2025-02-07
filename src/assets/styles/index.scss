@@ -1,0 +1,18 @@
+// 使用新的 @use 语法导入模块
+@use "variables" as *;
+@use "themes/light" as *;
+@use "themes/dark" as *;
+@use "components/buttons" as *;
+@use "components/cards" as *;
+@use "components/forms" as *;
+@use "components/search" as *;
+@use "utilities/backgrounds" as *;
+@use "utilities/shadows" as *;
+
+// 全局基础样式
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--bs-body-bg);
+}

@@ -1,0 +1,27 @@
+[data-bs-theme="dark"] {
+  --bs-body-bg: #1a1d21;
+  --bs-body-color: #e9ecef;
+  --bs-border-color: #373b3e;
+  
+  .bg-light {
+    background-color: var(--bs-dark) !important;
+  }
+  
+  .btn-light-hover:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .search-box {
+    .input-group {
+      background-color: var(--bs-dark);
+    }
+    
+    .form-control {
+      color: var(--bs-body-color);
+    }
+    
+    .input-group-text {
+      color: var(--bs-secondary);
+    }
+  }
+} 
