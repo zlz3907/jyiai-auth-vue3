@@ -210,10 +210,10 @@ import { useI18n } from 'vue-i18n'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, maxLength, helpers } from '@vuelidate/validators'
 import * as bootstrap from 'bootstrap'
-import {userApi} from '@/api/user'
+import { userApi } from '@/api/user'
 import Terms from './Terms.vue'  // 导入 Terms 组件
 import type { RegisterForm, AuthFormRules } from './types'
-import { register, sendVerifyCode } from '@/api/auth'
+
 
 // 在 setup 前添加接口定义
 interface ApiError extends Error {
@@ -354,9 +354,14 @@ export default defineComponent({
       showPassword.value = !showPassword.value
     }
 
+    // 在 setup 函数中添加 termsModalRef 的定义
+    const termsModalRef = ref<InstanceType<typeof Terms> | null>(null)
+
     // Terms 相关方法
     const showTerms = () => {
-      termsModalRef.value?.show()
+      if (termsModalRef.value) {
+        termsModalRef.value.showModal()
+      }
     }
 
     const acceptTerms = () => {
@@ -386,7 +391,10 @@ export default defineComponent({
         loading.value = true
         error.value = null
         
-        await sendVerifyCode(form.phone)
+        await userApi.auth.sendVerificationCode({
+          phone: form.phone,
+          type: 'register'
+        })
         
         countdown.value = 60
         countdownTimer = setInterval(() => {
@@ -413,16 +421,14 @@ export default defineComponent({
           loading.value = true
           error.value = null
           
-          const res = await userApi.verification.verify({
+          const res = await userApi.auth.verifyCode({
             phone: form.phone,
             code: newCode,
             type: 'register'
           })
           
-          if (res.code === 200) {  // 验证码验证通过
+          if (res.code === 200) {
             form.verified = true
-            // 可以添加成功提示
-            // toast.success(t('auth.register.validation.codeVerifySuccess'))
           } else {
             error.value = {
               message: res.message
@@ -456,7 +462,13 @@ export default defineComponent({
       error.value = null
       
       try {
-        await register(form)
+        await userApi.auth.register({
+          username: form.username,
+          phone: form.phone,
+          password: form.password,
+          code: form.code
+        })
+        
         router.push('/auth/login')
       } catch (err) {
         error.value = {
@@ -493,7 +505,6 @@ export default defineComponent({
       }
     })
 
-    const termsModalRef = ref<InstanceType<typeof Terms> | null>(null)
     const redirectCountdown = ref(3)
 
     return {
@@ -518,7 +529,8 @@ export default defineComponent({
       translateError,
       handleSendCode,
       handleSubmit,
-      t
+      t,
+      termsModalRef
     }
   }
 })

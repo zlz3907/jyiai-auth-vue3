@@ -75,116 +75,130 @@
     <div class="alert-container" style="min-height: 60px">
       <div class="alert alert-danger d-flex align-items-center mt-3" role="alert" v-if="error">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
-        <div class="small">{{ error }}</div>
+        <div class="small">{{ error.message }}</div>
         <button type="button" class="btn-close ms-auto" @click="error = null"></button>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue'
+<script setup lang="ts">
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useVuelidate } from '@vuelidate/core'
-import { required, minLength, sameAs } from '@vuelidate/validators'
-import type { ForgotPasswordForm, AuthFormRules } from './types'
-import { resetPassword, sendVerifyCode } from '@/api/auth'
+import { userApi } from '@/api/user'
+import type { ForgotPasswordForm } from './types'
 
-export default defineComponent({
-  name: 'ForgotPassword',
-  setup() {
-    const { t } = useI18n()
-    const router = useRouter()
+const router = useRouter()
+const { t } = useI18n()
 
-    const form = reactive<ForgotPasswordForm>({
-      phone: '',
-      code: '',
-      newPassword: '',
-      confirmPassword: ''
-    })
-
-    const rules: AuthFormRules = {
-      phone: { required: true, pattern: /^1[3-9]\d{9}$/ },
-      code: { required: true, pattern: /^\d{6}$/ },
-      password: { required: true, minLength: 6 }
-    }
-
-    const v$ = useVuelidate(rules, form)
-    const loading = ref(false)
-    const error = ref<Error | null>(null)
-    const showPassword = ref(false)
-    const step = ref(1)
-    const countdown = ref(0)
-
-    const buttonText = computed(() => {
-      return step.value === 1 
-        ? t('auth.forgot.form.next') 
-        : t('auth.forgot.form.reset')
-    })
-
-    const togglePassword = () => {
-      showPassword.value = !showPassword.value
-    }
-
-    const startCountdown = () => {
-      countdown.value = 60
-      const timer = setInterval(() => {
-        countdown.value--
-        if (countdown.value <= 0) {
-          clearInterval(timer)
-        }
-      }, 1000)
-    }
-
-    const handleSendCode = async () => {
-      if (countdown.value > 0) return
-      try {
-        await sendVerifyCode(form.phone)
-        countdown.value = 60
-        const timer = setInterval(() => {
-          countdown.value--
-          if (countdown.value <= 0) {
-            clearInterval(timer)
-          }
-        }, 1000)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    const handleSubmit = async () => {
-      const isValid = await v$.value.$validate()
-      if (!isValid) return
-
-      loading.value = true
-      try {
-        await resetPassword(form)
-        router.push('/auth/login')
-      } catch (error) {
-        console.error(error)
-      } finally {
-        loading.value = false
-      }
-    }
-
-    return {
-      form,
-      v$,
-      loading,
-      error,
-      showPassword,
-      step,
-      countdown,
-      buttonText,
-      togglePassword,
-      startCountdown,
-      handleSendCode,
-      handleSubmit,
-      t
-    }
-  }
+// 使用类型定义
+const form = ref<ForgotPasswordForm>({
+  phone: '',
+  code: '',
+  newPassword: ''
 })
+
+const loading = ref(false)
+const error = ref<Error | null>(null)
+const showPassword = ref(false)
+const step = ref(1)
+const countdown = ref(0)
+
+const buttonText = computed(() => {
+  return step.value === 1 
+    ? t('auth.forgot.form.next') 
+    : t('auth.forgot.form.reset')
+})
+
+const togglePassword = () => {
+  showPassword.value = !showPassword.value
+}
+
+const startCountdown = () => {
+  countdown.value = 60
+  const timer = setInterval(() => {
+    countdown.value--
+    if (countdown.value <= 0) {
+      clearInterval(timer)
+    }
+  }, 1000)
+}
+
+const handleSendCode = async () => {
+  if (!form.value.phone) {
+    error.value = new Error(t('auth.forgot.validation.phoneRequired'))
+    return
+  }
+  
+  try {
+    loading.value = true
+    error.value = null
+    
+    // 使用新的 API 调用
+    await userApi.auth.sendVerificationCode({
+      phone: form.value.phone,
+      type: 'forgot_password'
+    })
+    
+    startCountdown()
+  } catch (err) {
+    error.value = {
+      message: (err as any)?.response?.data?.message || String(err)
+    } as Error
+  } finally {
+    loading.value = false
+  }
+}
+
+const handleSubmit = async () => {
+  if (!form.value.phone) {
+    error.value = new Error(t('auth.forgot.validation.phoneRequired'))
+    return
+  }
+
+  if (step.value === 1) {
+    step.value = 2
+    handleSendCode()
+    return
+  }
+
+  if (!form.value.code) {
+    error.value = new Error(t('auth.forgot.validation.codeRequired'))
+    return
+  }
+
+  if (!form.value.newPassword) {
+    error.value = new Error(t('auth.forgot.validation.passwordRequired'))
+    return
+  }
+
+  try {
+    loading.value = true
+    error.value = null
+
+    // 使用新的 API 调用
+    await userApi.auth.resetPassword({
+      phone: form.value.phone,
+      code: form.value.code,
+      newPassword: form.value.newPassword
+    })
+
+    router.push({
+      path: '/auth/login',
+      query: { 
+        phone: form.value.phone,
+        resetSuccess: 'true'
+      }
+    })
+  } catch (err) {
+    error.value = {
+      message: (err as any)?.response?.data?.message || String(err)
+    } as Error
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 
 <style scoped>

@@ -4,7 +4,7 @@ import Login from './views/auth/Login.vue'
 import Register from './views/auth/Register.vue'
 import ForgotPassword from './views/auth/ForgotPassword.vue'
 import { setupRouter } from './router'
-import { setupI18n } from './i18n'
+import { setupI18n } from './locales'
 
 export { Login, Register, ForgotPassword }
 

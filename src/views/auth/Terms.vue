@@ -4,8 +4,8 @@
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
           <div class="modal-header border-0">
-            <h5 class="modal-title">服务条款和隐私政策</h5>
-            <button type="button" class="btn-close" @click="hide"></button>
+            <h5 class="modal-title">{{ t('auth.register.form.terms') }}</h5>
+            <button type="button" class="btn-close" @click="hideModal"></button>
           </div>
           <div class="modal-body px-4">
             <div class="terms-content">
@@ -95,8 +95,8 @@
             </div>
           </div>
           <div class="modal-footer border-0">
-            <button type="button" class="btn btn-light" @click="hide">取消</button>
-            <button type="button" class="btn btn-primary" @click="handleAccept">同意并继续</button>
+            <button type="button" class="btn btn-secondary" @click="hideModal">{{ t('common.cancel') }}</button>
+            <button type="button" class="btn btn-primary" @click="accept">{{ t('common.confirm') }}</button>
           </div>
         </div>
       </div>
@@ -104,40 +104,52 @@
   </Teleport>
 </template>
 
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+<script lang="ts">
+import { defineComponent, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import * as bootstrap from 'bootstrap'
 
-const emit = defineEmits(['accept'])
-const modal = ref(null)
+export default defineComponent({
+  name: 'Terms',
+  emits: ['accept'],
+  setup(_, { emit }) {
+    const { t } = useI18n()
+    let modalInstance: bootstrap.Modal | null = null
 
-const show = () => {
-  if (!modal.value) {
-    modal.value = new bootstrap.Modal(document.getElementById('termsModal'), {
-      backdrop: 'static',
-      keyboard: false
+    const showModal = () => {
+      if (!modalInstance) {
+        const modalEl = document.getElementById('termsModal')
+        if (modalEl) {
+          modalInstance = new bootstrap.Modal(modalEl, {
+            backdrop: 'static',
+            keyboard: false
+          })
+        }
+      }
+      modalInstance?.show()
+    }
+
+    const hideModal = () => {
+      modalInstance?.hide()
+    }
+
+    const accept = () => {
+      emit('accept')
+      hideModal()
+    }
+
+    onUnmounted(() => {
+      modalInstance?.dispose()
     })
+
+    // 暴露方法给父组件
+    return {
+      t,
+      showModal,
+      hideModal,
+      accept
+    }
   }
-  modal.value.show()
-}
-
-const hide = () => {
-  modal.value?.hide()
-}
-
-const handleAccept = () => {
-  emit('accept')
-  hide()
-}
-
-// 暴露方法给父组件
-defineExpose({
-  show,
-  hide
-})
-
-onUnmounted(() => {
-  modal.value?.dispose()
 })
 </script>
 
