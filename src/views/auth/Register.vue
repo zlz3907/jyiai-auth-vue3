@@ -204,26 +204,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { defineComponent, ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useAuthStore } from '@/stores/auth'
 import { useVuelidate } from '@vuelidate/core'
-import { required, minLength, maxLength, helpers, sameAs } from '@vuelidate/validators'
+import { required, minLength, maxLength, helpers } from '@vuelidate/validators'
 import * as bootstrap from 'bootstrap'
 import {userApi} from '@/api/user'
-import { useUserStore } from '@/stores/user'
 import Terms from './Terms.vue'  // 导入 Terms 组件
 import type { RegisterForm, AuthFormRules } from './types'
 import { register, sendVerifyCode } from '@/api/auth'
 
+// 在 setup 前添加接口定义
+interface ApiError extends Error {
+  response?: {
+    data?: {
+      message?: string
+    }
+  }
+}
+
 export default defineComponent({
   name: 'Register',
+  components: {
+    Terms
+  },
   setup() {
     const { t } = useI18n()
     const router = useRouter()
-    const authStore = useAuthStore()
-    const userStore = useUserStore()
 
     const form = reactive<RegisterForm>({
       username: '',
@@ -249,6 +257,10 @@ export default defineComponent({
       },
       phone: {
         required: helpers.withMessage(() => t('auth.register.validation.phoneRequired'), required),
+        minLength: helpers.withMessage(
+          () => t('auth.register.validation.phoneLength'),
+          minLength(11)
+        ),
         pattern: helpers.withMessage(
           () => t('auth.register.validation.phoneFormat'),
           helpers.regex(/^1[3-9]\d{9}$/)
@@ -284,14 +296,14 @@ export default defineComponent({
       }
     }
 
-    const v$ = useVuelidate(rules, form)
+    const v$ = useVuelidate(rules, form) as any // 临时解决方案，或使用更具体的类型
     const loading = ref(false)
-    const error = ref<Error | null>(null)
+    const error = ref<ApiError | null>(null)
     const success = ref(false)
     const countdown = ref(0)
     const showPassword = ref(false)
     const termsModalEl = ref(null)  // 改名以避免混淆
-    let termsModal: bootstrap.Modal | null = null
+    let termsModal: typeof bootstrap.Modal | null = null  // 使用 typeof 获取类型
     let countdownTimer: NodeJS.Timeout | null = null
     let redirectTimer: NodeJS.Timeout | null = null
 
@@ -352,14 +364,13 @@ export default defineComponent({
     }
 
     // 错误信息转换函数
-    const translateError = (error) => {
+    const translateError = (error: ApiError | string | null) => {
       if (!error) return ''
       
       // 获取错误信息
-      const message = error.message || error
+      const message = typeof error === 'string' ? error : error.message || ''
       
-      // 尝试获取翻译，如果没有对应翻译则返回原始错误信息
-      return t(`auth.register.errors.${message}`, null, {
+      return t(`auth.register.errors.${message}`, {}, {
         default: message
       })
     }
@@ -380,12 +391,16 @@ export default defineComponent({
         countdown.value = 60
         countdownTimer = setInterval(() => {
           countdown.value--
-          if (countdown.value <= 0) {
+          if (countdown.value <= 0 && countdownTimer) {
             clearInterval(countdownTimer)
+            countdownTimer = null
           }
         }, 1000)
       } catch (err) {
-        error.value = err  // 直接使用错误对象
+        error.value = {
+          message: (err as any)?.response?.data?.message || String(err)
+        } as ApiError
+        form.verified = false
       } finally {
         loading.value = false
       }
@@ -409,11 +424,15 @@ export default defineComponent({
             // 可以添加成功提示
             // toast.success(t('auth.register.validation.codeVerifySuccess'))
           } else {
-            error.value = res.message
+            error.value = {
+              message: res.message
+            } as ApiError
             form.verified = false
           }
         } catch (err) {
-          error.value = err?.response?.data?.message || err.message
+          error.value = {
+            message: (err as any)?.response?.data?.message || String(err)
+          } as ApiError
           form.verified = false
         } finally {
           loading.value = false
@@ -440,7 +459,9 @@ export default defineComponent({
         await register(form)
         router.push('/auth/login')
       } catch (err) {
-        error.value = err
+        error.value = {
+          message: (err as any)?.response?.data?.message || String(err)
+        } as ApiError
       } finally {
         loading.value = false
       }
@@ -459,8 +480,9 @@ export default defineComponent({
     })
 
     onUnmounted(() => {
-      if (countdownTimer) {
+      if (countdown.value <= 0 && countdownTimer) {
         clearInterval(countdownTimer)
+        countdownTimer = null
       }
       if (redirectTimer) {
         clearInterval(redirectTimer)

@@ -2,7 +2,7 @@ import type { FormInstance } from '@vuelidate/core'
 import type { ValidationRule } from '@vuelidate/core'
 
 export interface LoginForm {
-  username: string
+  phone: string
   password: string
   remember: boolean
 }
@@ -31,19 +31,20 @@ export interface ForgotPasswordForm {
 }
 
 export interface AuthFormRules {
-  username?: {
+  phone: {
     required: ValidationRule
     minLength: ValidationRule
-    maxLength: ValidationRule
+    pattern: ValidationRule
   }
-  password?: {
+  password: {
     required: ValidationRule
     minLength: ValidationRule
     strongPassword?: ValidationRule
   }
-  phone?: {
+  username?: {
     required: ValidationRule
-    pattern: ValidationRule
+    minLength: ValidationRule
+    maxLength: ValidationRule
   }
   code?: {
     required: ValidationRule

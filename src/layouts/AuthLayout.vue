@@ -7,8 +7,8 @@
             <!-- 这里可以放置 logo -->
           </div>
           <div class="actions">
-            <LanguageSelector />
             <ThemeToggler />
+            <LanguageSelector />
           </div>
         </div>
       </div>
@@ -32,7 +32,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import type { AuthLayoutProps, AuthLayoutEmits } from './types'
 import LanguageSelector from '@/components/LanguageSelector.vue'
 import ThemeToggler from '@/components/ThemeToggler.vue'
 
@@ -53,7 +52,7 @@ export default defineComponent({
     }
   },
   emits: ['update:showHeader', 'update:showFooter'],
-  setup(props, { emit }) {
+  setup() {
     // 如果需要的话，这里可以添加更多的逻辑
     return {
       // 返回需要在模板中使用的内容

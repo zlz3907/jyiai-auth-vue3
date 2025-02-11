@@ -8,9 +8,8 @@ import toast from './plugins/toast'
 
 // 导入样式
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.js'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import './assets/styles/index.scss'
-import './assets/main.css'
 
 const app: VueApp = createApp(App)
 const pinia = createPinia()

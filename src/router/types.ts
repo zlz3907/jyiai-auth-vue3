@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router'
 
-export interface AuthRoute extends RouteRecordRaw {
+export interface AuthRoute extends Omit<RouteRecordRaw, 'meta'> {
   meta?: {
     title?: string
     requiresAuth?: boolean

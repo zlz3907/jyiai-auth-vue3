@@ -18,4 +18,5 @@ declare module '@/api/user' {
 
 declare module 'bootstrap' {
   export const Modal: any
+  export const Dropdown: any
 } 

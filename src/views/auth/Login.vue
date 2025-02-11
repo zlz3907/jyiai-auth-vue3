@@ -82,9 +82,8 @@ import { defineComponent, ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useVuelidate } from '@vuelidate/core'
-import { required, minLength } from '@vuelidate/validators'
 import type { LoginForm, AuthFormRules } from './types'
-import { loginByPassword } from '@/api/auth'
+import { userApi } from '@/api/user'
 
 export default defineComponent({
   name: 'Login',
@@ -94,13 +93,13 @@ export default defineComponent({
     const route = useRoute()
 
     const form = reactive<LoginForm>({
-      username: '',
+      phone: localStorage.getItem('phone') || '',
       password: '',
-      remember: false
+      remember: localStorage.getItem('remember') === 'true'
     })
 
     const rules: AuthFormRules = {
-      username: { required: true, minLength: 3 },
+      phone: { required: true, minLength: 11 },
       password: { required: true, minLength: 6 }
     }
 
@@ -118,14 +117,52 @@ export default defineComponent({
       if (!isValid) return
 
       loading.value = true
+      error.value = null
+      
       try {
-        await loginByPassword(form)
+        const res = await userApi.auth.login({
+          phone: form.phone,
+          password: form.password,
+          remember: form.remember
+        })
+
+        localStorage.setItem('token', res.token)
+        localStorage.setItem('userInfo', JSON.stringify(res.user))
+        
+        if (form.remember) {
+          localStorage.setItem('phone', form.phone)
+          localStorage.setItem('remember', 'true')
+        } else {
+          localStorage.removeItem('phone')
+          localStorage.removeItem('remember')
+        }
+
         const redirect = route.query.redirect as string || '/'
         router.push(redirect)
-      } catch (error) {
-        console.error(error)
+
+      } catch (_error: any) {
+        console.error(_error)
+        error.value = _error?.response?.data?.message || _error?.message || t('auth.login.error.failed')
+        form.password = ''
       } finally {
         loading.value = false
+      }
+    }
+
+    const handleSendCode = async () => {
+      if (!form.phone) {
+        error.value = t('auth.login.validation.phoneRequired')
+        return
+      }
+
+      try {
+        await userApi.auth.sendVerificationCode({
+          phone: form.phone,
+          type: 'login'
+        })
+        error.value = null
+      } catch (_error: any) {
+        error.value = _error?.message || t('auth.login.error.sendCodeFailed')
       }
     }
 
@@ -137,6 +174,7 @@ export default defineComponent({
       showPassword,
       togglePassword,
       handleSubmit,
+      handleSendCode,
       t
     }
   }

@@ -1,65 +1,59 @@
 <template>
-  <div class="relative">
-    <button
-      type="button"
-      class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
-      @click="toggleDropdown"
-    >
-      <span>{{ languages.find(lang => lang.code === locale)?.flag }}</span>
-      <span>{{ languages.find(lang => lang.code === locale)?.name }}</span>
-    </button>
-
-    <div
-      v-if="isOpen"
-      class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5"
-    >
-      <div class="py-1">
-        <button
-          v-for="lang in languages"
-          :key="lang.code"
-          class="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
-          @click="changeLanguage(lang)"
-        >
-          <span>{{ lang.flag }}</span>
-          <span>{{ lang.name }}</span>
-        </button>
-      </div>
+  <div class="dropdown me-3">
+    <a class="nav-link dropdown-toggle" 
+       href="#" 
+       id="dropdownLanguage" 
+       ref="dropdownButton"
+       data-bs-toggle="dropdown" 
+       aria-haspopup="true" 
+       aria-expanded="false">
+      <!-- <i class="bi bi-globe me-2"></i> -->
+      <span class="me-2">{{ languages.find(lang => lang.code === locale)?.flag }}</span>
+      <span class="d-none d-lg-inline-block">{{ languages.find(lang => lang.code === locale)?.name }}</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end mt-2 shadow" aria-labelledby="dropdownLanguage">
+      <a v-for="lang in languages" 
+         :key="lang.code"
+         class="dropdown-item d-flex align-items-center" 
+         href="#"
+         @click.prevent="changeLanguage(lang)">
+        <span class="me-2">{{ lang.flag }}</span>
+        {{ lang.name }}
+      </a>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { availableLanguages, setLanguage } from '@/locales'
 import type { Language } from '@/locales/types'
+import { Dropdown } from 'bootstrap'
 
 export default defineComponent({
   name: 'LanguageSelector',
   setup() {
     const { locale } = useI18n()
-    const isOpen = ref(false)
-
-    const toggleDropdown = () => {
-      isOpen.value = !isOpen.value
-    }
+    const dropdownButton = ref<HTMLElement | null>(null)
 
     const changeLanguage = (lang: Language) => {
       setLanguage(lang.code)
-      isOpen.value = false
     }
+
+    onMounted(() => {
+      // 初始化下拉菜单
+      if (dropdownButton.value && Dropdown) {
+        new Dropdown(dropdownButton.value)
+      }
+    })
 
     return {
       locale,
-      isOpen,
       languages: availableLanguages,
-      toggleDropdown,
-      changeLanguage
+      changeLanguage,
+      dropdownButton
     }
   }
 })
-</script>
-
-<style scoped>
-/* 移除所有旧的 Bootstrap 样式 */
-</style> 
+</script> 

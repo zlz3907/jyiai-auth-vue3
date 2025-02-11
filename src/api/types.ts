@@ -38,6 +38,7 @@ export interface UserInfo {
   avatar?: string
   email?: string
   roles?: string[]
+  _id?: string
   [key: string]: any
 }
 
@@ -52,4 +53,24 @@ export interface RequestConfig {
 export interface CryptoConfig {
   key: string
   iv: string
+}
+
+// Bridge 消息类型
+export interface BridgeMessage {
+  type: string
+  data?: any
+}
+
+// Bridge 回调函数类型
+export interface BridgeCallback {
+  (data: any): void
+}
+
+// API 配置类型
+export interface ApiConfig {
+  source: string
+  path: string
+  method: string
+  payload?: any
+  uid?: string | null
 } 
