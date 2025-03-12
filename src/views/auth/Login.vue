@@ -189,7 +189,7 @@ export default defineComponent({
         router.push(redirectUrl)
 
         // 添加调试代码，检查 cookie 是否设置成功
-        console.log('Cookie value:', Cookies.get('JYIAIToken'))
+        console.log('Cookie value:', redirectUrl, Cookies.get('JYIAIToken'))
 
       } catch (_error: any) {
         console.error(_error)

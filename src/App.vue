@@ -7,18 +7,18 @@ import storage from '@/utils/storage'
 
 onMounted(() => {
   // 检查登录状态
-  const token = storage.getItem('token')
-  const userInfo = storage.getItem('userInfo')
+  // const token = storage.getItem('token')
+  // const userInfo = storage.getItem('userInfo')
   
-  if (token && userInfo) {
-    try {
-      const parsedUserInfo = JSON.parse(userInfo)
-      // userStore.setUserInfo(parsedUserInfo)
-      // userStore.setToken(token)
-    } catch (e) {
-      console.error('Failed to parse user info:', e)
-    }
-  }
+  // if (token && userInfo) {
+  //   try {
+  //     const parsedUserInfo = JSON.parse(userInfo)
+  //     // userStore.setUserInfo(parsedUserInfo)
+  //     // userStore.setToken(token)
+  //   } catch (e) {
+  //     console.error('Failed to parse user info:', e)
+  //   }
+  // }
 })
 </script>
 
