@@ -21,9 +21,14 @@ router.beforeEach((to, _from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     const token = storage.getItem('token')
     if (!token) {
+      // 使用与应用程序一致的参数名称
+      const queryParams = to.query.backUrl ? 
+        { backUrl: to.fullPath } : 
+        { redirect: to.fullPath }
+        
       next({
         path: '/auth/login',
-        query: { redirect: to.fullPath }
+        query: queryParams
       })
     } else {
       next()

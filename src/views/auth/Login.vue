@@ -182,8 +182,11 @@ export default defineComponent({
           storage.removeItem('remember')
         }
 
-        const redirect = route.query.redirect as string || '/'
-        router.push(redirect)
+        // 支持多种跳转参数
+        const redirectUrl = route.query.redirect as string || 
+                           route.query.backUrl as string || 
+                           '/'
+        router.push(redirectUrl)
 
         // 添加调试代码，检查 cookie 是否设置成功
         console.log('Cookie value:', Cookies.get('JYIAIToken'))
