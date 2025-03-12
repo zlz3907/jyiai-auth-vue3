@@ -1,4 +1,3 @@
-import type { FormInstance } from '@vuelidate/core'
 import type { ValidationRule } from '@vuelidate/core'
 
 export interface LoginForm {
@@ -67,5 +66,4 @@ export interface AuthFormEmits {
 export interface AuthFormRef {
   validate: () => Promise<boolean>
   reset: () => void
-  form: FormInstance
 } 

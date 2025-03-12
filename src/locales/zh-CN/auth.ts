@@ -105,6 +105,11 @@ const auth: AuthMessages = {
       invalidCode: '验证码无效或已过期',
       systemError: '系统错误，请稍后重试'
     }
+  },
+  wxAuth: {
+    title: '微信登录',
+    subtitle: '请使用微信扫描二维码登录',
+    backToLogin: '返回账号登录'
   }
 }
 

@@ -51,7 +51,8 @@ const common: CommonMessages = {
     title: '機能切り替え',
     dataset: 'ナレッジベース管理',
     agent: 'エージェント管理'
-  }
+  },
+  back: '戻る'
 }
 
 export default common 

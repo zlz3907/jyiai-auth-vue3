@@ -1,78 +1,109 @@
 <template>
-  <!-- Title -->
-  <span class="mb-0 fs-1">👋</span>
-  <h1 class="fs-2 mt-2">{{ t('auth.login.title') }}</h1>
-  <p class="lead mb-4">{{ t('auth.login.subtitle') }}</p>
+  <div class=" border-0 bg-transparent">
+    <div class="card-body p-4">
 
-  <!-- Form START -->
-  <div>
-    <!-- Phone -->
-    <div class="mb-4">
-      <div class="input-group" :class="{ 'is-invalid': error && !form.phone }">
-        <span class="input-group-text border-0">
-          <i class="bi bi-phone fs-5"></i>
-        </span>
-        <input type="tel" class="form-control form-control-lg ps-1" 
-               v-model="form.phone" 
-               :placeholder="t('auth.login.form.phonePlaceholder')">
+      <div class="mb-4">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          <small>{{ error }}</small>
+          <button type="button" class="btn-close" @click="error = null" aria-label="Close"></button>
+        </div>
       </div>
-    </div>
 
-    <!-- Password -->
-    <div class="mb-4">
-      <div class="input-group" :class="{ 'is-invalid': error && !form.password }">
-        <span class="input-group-text border-0">
-          <i class="bi bi-key fs-5"></i>
-        </span>
-        <input :type="showPassword ? 'text' : 'password'" 
-               class="form-control form-control-lg ps-1" 
-               v-model="form.password" 
-               :placeholder="t('auth.login.form.passwordPlaceholder')">
-        <button class="btn btn-outline-secondary border-0" type="button" @click="togglePassword">
-          <i class="bi" :class="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+
+      <!-- Title -->
+      <div class="text-center mb-4">
+        <h1 class="fs-2 mt-2">{{ t('auth.login.title') }}</h1>
+        <p class="lead text-secondary mb-4">{{ t('auth.login.subtitle') }}</p>
+      </div>
+
+      <!-- Form START -->
+      <form @submit.prevent="handleSubmit">
+        <!-- Phone -->
+        <div class="mb-3">
+          <div class="input-group input-group-lg border rounded-3">
+            <span class="input-group-text border-0 bg-transparent">
+              <i class="bi bi-phone fs-5"></i>
+            </span>
+            <input type="tel" class="form-control border-0 bg-transparent shadow-none"
+              :class="{ 'is-invalid': v$.phone.$error }" v-model="form.phone" @blur="v$.phone.$touch()"
+              :placeholder="t('auth.login.form.phonePlaceholder')">
+          </div>
+          <div class="invalid-feedback" v-if="v$.phone.$error">
+            {{ v$.phone.$errors[0].$message }}
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <div class="input-group input-group-lg border rounded-3">
+            <span class="input-group-text border-0 bg-transparent">
+              <i class="bi bi-key fs-5"></i>
+            </span>
+            <input :type="showPassword ? 'text' : 'password'" class="form-control border-0 bg-transparent shadow-none"
+              :class="{ 'is-invalid': v$.password.$error }" v-model="form.password" @blur="v$.password.$touch()"
+              :placeholder="t('auth.login.form.passwordPlaceholder')">
+            <button class="btn btn-link text-secondary border-0 px-3" type="button" @click="togglePassword">
+              <i class="bi" :class="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+          </div>
+          <div class="invalid-feedback" v-if="v$.password.$error">
+            {{ v$.password.$errors[0].$message }}
+          </div>
+        </div>
+
+        <!-- Remember me -->
+        <div class="mb-3">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="rememberCheck" v-model="form.remember">
+            <label class="form-check-label text-secondary" for="rememberCheck">
+              {{ t('auth.login.form.remember') }}
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-lg w-100 mb-3" :class="!v$.$invalid ? 'btn-primary' : 'btn-secondary'"
+          :disabled="v$.$invalid || loading">
+          <span class="spinner-border spinner-border-sm me-2" v-if="loading"></span>
+          {{ loading ? t('common.system.loading') : t('auth.login.form.login') }}
         </button>
-      </div>
-    </div>
 
-    <!-- Remember me -->
-    <div class="mb-4">
-      <div class="form-check">
-        <input type="checkbox" class="form-check-input" 
-               id="rememberCheck" 
-               v-model="form.remember">
-        <label class="form-check-label" for="rememberCheck">
-          {{ t('auth.login.form.remember') }}
-        </label>
-      </div>
-    </div>
+        <!-- Links -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="small">
+            {{ t('auth.login.noAccount') }}
+            <router-link to="/auth/register" class="text-primary text-decoration-none">
+              {{ t('auth.login.register') }}
+            </router-link>
+          </div>
+          <router-link to="/auth/forgot-password" class="text-primary text-decoration-none small">
+            {{ t('auth.login.form.forgot') }}
+          </router-link>
+        </div>
 
-    <!-- Submit Button -->
-    <div class="d-grid">
-      <button type="button" class="btn btn-primary btn-lg" 
-              @click="handleSubmit" 
-              :disabled="loading">
-        <span class="spinner-border spinner-border-sm me-2" v-if="loading"></span>
-        {{ loading ? t('common.system.loading') : t('auth.login.form.login') }}
-      </button>
-    </div>
+        <!-- Divider -->
+        <div class="position-relative my-4">
+          <hr>
+          <span class="position-absolute top-50 start-50 translate-middle px-3 bg-white small">
+            {{ t('auth.register.form.or') }}
+          </span>
+        </div>
 
-    <!-- Links -->
-    <div class="d-flex justify-content-between mt-4">
-      <router-link to="/auth/register" class="text-primary">
-        {{ t('auth.login.register') }}
-      </router-link>
-      <router-link to="/auth/forgot-password" class="text-primary">
-        {{ t('auth.login.form.forgot') }}
-      </router-link>
-    </div>
+        <!-- Social buttons -->
+        <div class="d-grid">
+          <button type="button" 
+                  class="btn btn-link p-2" 
+                  style="height: 48px; width: 48px; margin: 0 auto;"
+                  @click="router.push('/auth/wx-auth')">
+            <img src="https://api.zhycit.com/alioss2/icons/tubiaopng/wx_online.png" 
+                 alt="WeChat" width="32" height="32">
+          </button>
+        </div>
 
-    <!-- Alert -->
-    <div class="alert-container" style="min-height: 60px">
-      <div class="alert alert-danger d-flex align-items-center mt-3" role="alert" v-if="error">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-        <div class="small">{{ error }}</div>
-        <button type="button" class="btn-close ms-auto" @click="error = null"></button>
-      </div>
+        <!-- Alert -->
+
+      </form>
     </div>
   </div>
 </template>
@@ -82,8 +113,13 @@ import { defineComponent, ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useVuelidate } from '@vuelidate/core'
-import type { LoginForm, AuthFormRules } from './types'
+// import { useUserStore } from '@/stores/user'
+import type { LoginForm } from './types'
+import type { ValidationRule } from '@vuelidate/core'
 import { userApi } from '@/api/user'
+import { required, minLength } from '@vuelidate/validators'
+import Cookies from 'js-cookie'
+import storage from '@/utils/storage'
 
 export default defineComponent({
   name: 'Login',
@@ -91,21 +127,28 @@ export default defineComponent({
     const { t } = useI18n()
     const router = useRouter()
     const route = useRoute()
+    // const userStore = useUserStore()
 
     const form = reactive<LoginForm>({
-      phone: localStorage.getItem('phone') || '',
+      phone: storage.getItem('phone') || '',
       password: '',
-      remember: localStorage.getItem('remember') === 'true'
+      remember: storage.getItem('remember') || false
     })
 
-    const rules: AuthFormRules = {
-      phone: { required: true, minLength: 11 },
-      password: { required: true, minLength: 6 }
+    const rules = {
+      phone: {
+        required: required as ValidationRule,
+        minLength: minLength(11) as ValidationRule
+      },
+      password: {
+        required: required as ValidationRule,
+        minLength: minLength(6) as ValidationRule
+      }
     }
 
     const v$ = useVuelidate(rules, form)
     const loading = ref(false)
-    const error = ref(null)
+    const error = ref<string | null>(null)
     const showPassword = ref(false)
 
     const togglePassword = () => {
@@ -118,7 +161,7 @@ export default defineComponent({
 
       loading.value = true
       error.value = null
-      
+
       try {
         const res = await userApi.auth.login({
           phone: form.phone,
@@ -126,19 +169,24 @@ export default defineComponent({
           remember: form.remember
         })
 
-        localStorage.setItem('token', res.token)
-        localStorage.setItem('userInfo', JSON.stringify(res.user))
-        
+        storage.setItem('token', res?.token) 
+        storage.setItem('userInfo', res?.user)
+        // userStore.setToken(res.token)
+        // userStore.setUserInfo(res.user)
+
         if (form.remember) {
-          localStorage.setItem('phone', form.phone)
-          localStorage.setItem('remember', 'true')
+          storage.setItem('phone', form.phone)
+          storage.setItem('remember', true)
         } else {
-          localStorage.removeItem('phone')
-          localStorage.removeItem('remember')
+          storage.removeItem('phone')
+          storage.removeItem('remember')
         }
 
         const redirect = route.query.redirect as string || '/'
         router.push(redirect)
+
+        // 添加调试代码，检查 cookie 是否设置成功
+        console.log('Cookie value:', Cookies.get('JYIAIToken'))
 
       } catch (_error: any) {
         console.error(_error)
@@ -175,86 +223,9 @@ export default defineComponent({
       togglePassword,
       handleSubmit,
       handleSendCode,
-      t
+      t,
+      router
     }
   }
 })
 </script>
-
-<style scoped>
-.input-group {
-  border: 1px solid var(--bs-border-color);
-  border-radius: 0.5rem;
-  transition: all 0.2s ease-in-out;
-}
-
-.input-group:focus-within {
-  border-color: var(--bs-primary);
-  box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
-}
-
-.input-group-text {
-  background-color: transparent;
-  border: none;
-  border-right: 1px solid var(--bs-border-color);
-  color: var(--bs-gray-600);
-  padding: 0.75rem 1rem;
-  min-width: 46px;
-  display: flex;
-  justify-content: center;
-}
-
-.form-control {
-  border: none;
-  padding: 0.75rem 1rem;
-  background-color: transparent;
-  color: var(--bs-body-color);
-}
-
-.form-control::placeholder {
-  color: var(--bs-gray-400);
-  opacity: 0.65;
-}
-
-.form-check-input:checked {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-primary);
-}
-
-:root[data-bs-theme="dark"] .input-group {
-  background-color: var(--bs-dark);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-:root[data-bs-theme="dark"] .input-group-text {
-  border-right-color: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-}
-
-:root[data-bs-theme="dark"] .form-control::placeholder {
-  color: rgba(255, 255, 255, 0.35);
-}
-
-.alert-container {
-  position: relative;
-  margin-top: 1rem;
-}
-
-.alert {
-  position: absolute;
-  left: 0;
-  right: 0;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-</style> 

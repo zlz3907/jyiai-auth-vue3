@@ -8,7 +8,10 @@
   <div>
     <!-- Phone -->
     <div class="mb-4">
-      <div class="input-group" :class="{ 'is-invalid': error && !form.phone }">
+      <div class="input-group" :class="{ 
+        'is-invalid': (error && !form.phone) || (form.phone && !isPhoneValid),
+        'border-success': form.phone && isPhoneValid 
+      }">
         <span class="input-group-text border-0">
           <i class="bi bi-phone fs-5"></i>
         </span>
@@ -16,6 +19,9 @@
                v-model="form.phone" 
                :placeholder="t('auth.forgot.form.phonePlaceholder')"
                :disabled="step === 2">
+      </div>
+      <div class="invalid-feedback" v-if="form.phone && !isPhoneValid">
+        {{ t('auth.forgot.validation.phoneInvalid') }}
       </div>
     </div>
 
@@ -54,9 +60,10 @@
 
     <!-- Submit Button -->
     <div class="d-grid">
-      <button type="button" class="btn btn-primary btn-lg" 
+      <button type="button" 
+              class="btn btn-primary btn-lg" 
               @click="handleSubmit" 
-              :disabled="loading">
+              :disabled="loading || (step === 1 && (!form.phone || !isPhoneValid))">
         <span class="spinner-border spinner-border-sm me-2" v-if="loading"></span>
         {{ loading ? t('common.system.loading') : buttonText }}
       </button>
@@ -96,7 +103,8 @@ const { t } = useI18n()
 const form = ref<ForgotPasswordForm>({
   phone: '',
   code: '',
-  newPassword: ''
+  newPassword: '',
+  confirmPassword: ''
 })
 
 const loading = ref(false)
@@ -125,9 +133,26 @@ const startCountdown = () => {
   }, 1000)
 }
 
+// 添加手机号验证函数
+const isValidPhone = (phone: string): boolean => {
+  // 中国大陆手机号验证规则
+  const phoneRegex = /^1[3-9]\d{9}$/
+  return phoneRegex.test(phone)
+}
+
+// 添加手机号验证状态
+const isPhoneValid = computed(() => {
+  return form.value.phone ? isValidPhone(form.value.phone) : false
+})
+
 const handleSendCode = async () => {
   if (!form.value.phone) {
     error.value = new Error(t('auth.forgot.validation.phoneRequired'))
+    return
+  }
+
+  if (!isValidPhone(form.value.phone)) {
+    error.value = new Error(t('auth.forgot.validation.phoneInvalid'))
     return
   }
   
@@ -154,6 +179,11 @@ const handleSendCode = async () => {
 const handleSubmit = async () => {
   if (!form.value.phone) {
     error.value = new Error(t('auth.forgot.validation.phoneRequired'))
+    return
+  }
+
+  if (!isValidPhone(form.value.phone)) {
+    error.value = new Error(t('auth.forgot.validation.phoneInvalid'))
     return
   }
 
@@ -272,5 +302,16 @@ const handleSubmit = async () => {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.invalid-feedback {
+  display: block;
+  font-size: 0.875em;
+  color: var(--bs-danger);
+  margin-top: 0.25rem;
+}
+
+.input-group.border-success {
+  border-color: var(--bs-success);
 }
 </style> 

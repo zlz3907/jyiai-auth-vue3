@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import type { Router } from 'vue-router'
 import routes from './routes'
 import { RouteRecordRaw } from 'vue-router'
+import storage from '@/utils/storage'
 
 const router: Router = createRouter({
   history: createWebHistory(),
@@ -18,7 +19,7 @@ router.beforeEach((to, _from, next) => {
 
   // 检查是否需要认证
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    const token = localStorage.getItem('token')
+    const token = storage.getItem('token')
     if (!token) {
       next({
         path: '/auth/login',

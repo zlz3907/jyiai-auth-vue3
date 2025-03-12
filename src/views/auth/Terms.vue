@@ -114,7 +114,7 @@ export default defineComponent({
   emits: ['accept'],
   setup(_, { emit }) {
     const { t } = useI18n()
-    let modalInstance: bootstrap.Modal | null = null
+    let modalInstance: typeof bootstrap.Modal | null = null
 
     const showModal = () => {
       if (!modalInstance) {

@@ -1,18 +1,43 @@
-// 使用新的 @use 语法导入模块
+// 顶层导入
 @use "variables" as *;
-@use "themes/light" as *;
-@use "themes/dark" as *;
 @use "components/buttons" as *;
 @use "components/cards" as *;
 @use "components/forms" as *;
+@use "components/navigation" as *;
 @use "components/search" as *;
+@use "components/stats" as *;
+@use "components/tables" as *;
 @use "utilities/backgrounds" as *;
 @use "utilities/shadows" as *;
+@use "themes/light" as *;
+@use "themes/dark" as *;
 
-// 全局基础样式
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-color: var(--bs-body-bg);
+// 组件命名空间
+.jyiai-auth {
+  // 组件样式
+  .form-control {
+    &.is-invalid {
+      border-color: var(--bs-danger) !important;
+    }
+
+    &::placeholder {
+      color: rgba(var(--bs-body-color-rgb), 0.35) !important;
+    }
+  }
+
+  // 其他组件样式
+  .btn {
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  // 深色模式适配
+  &[data-bs-theme="dark"] {
+    background-color: var(--bs-dark);
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.35) !important;
+    }
+  }
 }

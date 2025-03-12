@@ -51,7 +51,8 @@ const common: CommonMessages = {
     title: 'Changer de Fonction',
     dataset: 'Gestion des Bases de Connaissances',
     agent: 'Gestion des Agents'
-  }
+  },
+  back: 'Retour'
 }
 
 export default common 

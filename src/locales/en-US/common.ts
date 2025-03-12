@@ -49,9 +49,10 @@ const common: CommonMessages = {
   },
   pageSelector: {
     title: 'Switch Function',
-    dataset: 'Knowledge Base Management',
+    dataset: 'Dataset Management',
     agent: 'Agent Management'
-  }
+  },
+  back: 'Back'
 }
 
 export default common 

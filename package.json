@@ -1,19 +1,27 @@
 {
   "name": "@zhycit/jyiai-auth-vue3",
   "version": "0.0.2",
+  "type": "module",
   "author": "ZHYCIT <service@zhycit.com> (https://zhycit.com)",
   "description": "A reusable authentication component for frontend projects",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./style": "./dist/assets/style.css"
+  },
   "files": [
     "dist",
     "src/shims-vue.d.ts"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "build:types": "vue-tsc --emitDeclarationOnly",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -24,14 +32,15 @@
     "bootstrap": "^5.3.3",
     "bootstrap-vue-next": "^0.26.23",
     "crypto-js": "^4.2.0",
-    "pinia": "^2.3.1",
+    "js-cookie": "^3.0.5",
     "vue": "^3.5.13",
     "vue-i18n": "^11.1.0",
-    "vue-router": "^4.5.0",
-    "vue-toastification": "^2.0.0-rc.5"
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
     "@types/crypto-js": "^4.2.2",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.11.24",
     "@vitejs/plugin-vue": "^5.2.1",
     "less": "^4.2.2",
@@ -43,7 +52,8 @@
     "vue-tsc": "^1.8.27"
   },
   "peerDependencies": {
-    "pinia": "^2.3.1",
+    "bootstrap": "^5.3.3",
+    "bootstrap-vue-next": "^0.26.23",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },

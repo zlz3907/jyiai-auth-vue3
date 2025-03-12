@@ -51,7 +51,8 @@ const common: CommonMessages = {
     title: 'Chinja Function',
     dataset: 'Manage Knowledge Base',
     agent: 'Manage Agents'
-  }
+  },
+  back: 'Dzokera'
 }
 
 export default common 

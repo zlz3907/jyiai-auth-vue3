@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
+import storage from '@/utils/storage'
 
 export default defineComponent({
   name: 'ThemeToggler',
@@ -22,17 +23,15 @@ export default defineComponent({
     const toggleTheme = () => {
       isDark.value = !isDark.value
       document.documentElement.setAttribute('data-bs-theme', isDark.value ? 'dark' : 'light')
-      localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+      storage.setItem('theme', isDark.value ? 'dark' : 'light')
     }
 
     onMounted(() => {
-      // 检查本地存储的主题设置
-      const theme = localStorage.getItem('theme')
-      isDark.value = theme === 'dark' || 
-        (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)
-      
-      if (isDark.value) {
-        document.documentElement.setAttribute('data-bs-theme', 'dark')
+      // 从 localStorage 获取主题设置
+      const theme = storage.getItem('theme')
+      if (theme) {
+        isDark.value = theme === 'dark'
+        document.documentElement.setAttribute('data-bs-theme', isDark.value ? 'dark' : 'light')
       }
     })
 

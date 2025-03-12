@@ -1,17 +1,33 @@
 import type { AuthRouteConfig } from './types'
+import AuthLayout from '@/layouts/AuthLayout.vue'
 
 const routes: AuthRouteConfig = [
   {
     path: '/auth',
-    name: 'auth',
-    component: () => import('@/layouts/AuthLayout.vue'),
+    component: AuthLayout,
     children: [
+      {
+        path: '',
+        name: 'auth',
+        redirect: '/auth/login',
+        meta: {
+          title: '登录'
+        }
+      },
       {
         path: 'login',
         name: 'login',
         component: () => import('@/views/auth/Login.vue'),
         meta: {
           title: '登录'
+        }
+      },
+      {
+        path: 'wx-auth',
+        name: 'wx-auth',
+        component: () => import('@/views/auth/WxAuth.vue'),
+        meta: {
+          title: '微信登录'
         }
       },
       {

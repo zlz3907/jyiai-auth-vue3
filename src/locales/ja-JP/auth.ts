@@ -105,6 +105,11 @@ const auth: AuthMessages = {
       invalidCode: '無効または期限切れのコードです',
       systemError: 'システムエラーが発生しました。後でもう一度お試しください'
     }
+  },
+  wxAuth: {
+    title: 'WeChatログイン',
+    subtitle: 'WeChatでQRコードをスキャン',
+    backToLogin: 'ログインに戻る'
   }
 }
 

@@ -1,11 +1,14 @@
 import { createI18n } from 'vue-i18n'
-import type { Language, Messages } from './types'
+import type { App } from 'vue'
+import type { Language } from './types'
 import zhCN from './zh-CN'
 import enUS from './en-US'
 import deDE from './de-DE'
 import snZW from './sn-ZW'
 import frFR from './fr-FR'
 import jaJP from './ja-JP'
+import type { LocaleMessages } from 'vue-i18n'
+import storage from '@/utils/storage'
 
 export const availableLanguages: Language[] = [
   {
@@ -40,10 +43,8 @@ export const availableLanguages: Language[] = [
   }
 ]
 
-const messages: Record<string, Messages> = {
-  'zh': zhCN,
+const messages: { [key: string]: LocaleMessages<any> } = {
   'zh-CN': zhCN,
-  'en': enUS,
   'en-US': enUS,
   'de-DE': deDE,
   'sn-ZW': snZW,
@@ -54,17 +55,36 @@ const messages: Record<string, Messages> = {
 const i18n = createI18n({
   legacy: false,
   globalInjection: true,
-  locale: localStorage.getItem('language') || 'zh-CN',
+  locale: storage.getItem('language') || 'zh-CN',
   fallbackLocale: 'zh-CN',
   messages,
   silentTranslationWarn: true,
   missingWarn: false
 })
 
-export const setLanguage = (lang: string): void => {
+export function setLanguage(lang: string) {
   i18n.global.locale.value = lang
-  localStorage.setItem('language', lang)
+  storage.setItem('language', lang)
   document.querySelector('html')?.setAttribute('lang', lang)
+}
+
+export function setupI18n(app: App, options?: AuthI18nOptions) {
+  if (options?.messages) {
+    Object.keys(options.messages).forEach(locale => {
+      i18n.global.mergeLocaleMessage(locale, options.messages![locale])
+    })
+  }
+  
+  if (options?.locale) {
+    setLanguage(options.locale)
+  }
+  
+  app.use(i18n)
+}
+
+interface AuthI18nOptions {
+  locale?: string
+  messages?: Record<string, any>
 }
 
 export default i18n 

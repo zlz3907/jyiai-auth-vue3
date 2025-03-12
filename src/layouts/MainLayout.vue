@@ -2,17 +2,18 @@
 import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useAuthStore } from '@/stores/auth'
+// import { useAuthStore } from '@/stores/auth'
 import LanguageSelector from '@/components/LanguageSelector.vue'
 import ThemeToggler from '@/components/ThemeToggler.vue'
 import PageSelector from '@/components/PageSelector.vue'
-import { useUserStore } from '@/stores/user'
+// import { useUserStore } from '@/stores/user'
 import { logout as apiLogout } from '@/api/user'
+import storage from '@/utils/storage'
 
 const { t } = useI18n()
 const router = useRouter()
-const authStore = useAuthStore()
-const userStore = useUserStore()
+// const authStore = useAuthStore()
+// const userStore = useUserStore()
 
 const isDark = ref(document.documentElement.getAttribute('data-bs-theme') === 'dark')
 const username = computed(() => userStore.userInfo?.username || '用户')
@@ -54,8 +55,8 @@ const pageSelectorProps = computed(() => ({
 
 // 检查用户登录状态
 const checkAuth = () => {
-  const token = localStorage.getItem('token')
-  const userInfo = localStorage.getItem('userInfo')
+  const token = storage.getItem('token')
+  const userInfo = storage.getItem('userInfo')
   
   if (!token || !userInfo) {
     router.push('/auth/login')

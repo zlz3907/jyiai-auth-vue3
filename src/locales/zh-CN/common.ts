@@ -51,7 +51,8 @@ const common: CommonMessages = {
     title: '切换功能',
     dataset: '知识集管理',
     agent: '智能体管理'
-  }
+  },
+  back: '返回'
 }
 
 export default common 

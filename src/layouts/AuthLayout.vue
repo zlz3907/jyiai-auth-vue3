@@ -1,12 +1,25 @@
 <template>
-  <div class="auth-layout">
-    <header v-if="showHeader" class="auth-header">
+  <div class="jyiai-auth min-vh-100 d-flex flex-column">
+    <header v-if="showHeader" class="py-2 bg-light border-bottom">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-          <div class="logo">
-            <!-- 这里可以放置 logo -->
+          <div class="d-flex align-items-center gap-3">
+            <button 
+              v-if="backUrl" 
+              class="btn btn-link text-decoration-none p-0"
+              @click="handleBack"
+            >
+              <i class="bi bi-arrow-left me-1"></i>
+              {{ t('common.back') }}
+            </button>
+            <div class="logo">
+              <!-- Logo slot -->
+              <slot name="logo">
+                <!-- Default logo can be placed here -->
+              </slot>
+            </div>
           </div>
-          <div class="actions">
+          <div class="d-flex align-items-center gap-3">
             <ThemeToggler />
             <LanguageSelector />
           </div>
@@ -14,16 +27,22 @@
       </div>
     </header>
 
-    <main class="auth-main">
-      <div class="container">
-        <router-view></router-view>
+    <main class="flex-grow-1">
+      <div class="container h-100">
+        <div class="row min-vh-lg-75 align-items-center justify-content-center my-4">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <router-view></router-view>
+          </div>
+        </div>
       </div>
     </main>
 
-    <footer v-if="showFooter" class="auth-footer">
+    <footer v-if="showFooter" class="py-3 mt-auto border-top">
       <div class="container">
         <div class="text-center">
-          <!-- 这里可以放置版权信息等 -->
+          <slot name="footer">
+            <!-- Footer content slot -->
+          </slot>
         </div>
       </div>
     </footer>
@@ -31,7 +50,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import LanguageSelector from '@/components/LanguageSelector.vue'
 import ThemeToggler from '@/components/ThemeToggler.vue'
 
@@ -53,44 +74,34 @@ export default defineComponent({
   },
   emits: ['update:showHeader', 'update:showFooter'],
   setup() {
-    // 如果需要的话，这里可以添加更多的逻辑
+    const route = useRoute()
+    const backUrl = ref<string | null>(null)
+    const { t } = useI18n()
+
+    onMounted(() => {
+      const urlBackParam = route.query.backUrl
+      if (urlBackParam && typeof urlBackParam === 'string') {
+        backUrl.value = urlBackParam
+      }
+    })
+
+    const handleBack = () => {
+      if (backUrl.value) {
+        window.location.href = backUrl.value
+      }
+    }
+
     return {
-      // 返回需要在模板中使用的内容
+      backUrl,
+      handleBack,
+      t
     }
   }
 })
 </script>
 
-<style lang="scss" scoped>
-.auth-layout {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.auth-header {
-  padding: 1rem 0;
+<style lang="scss">
+.jyiai-auth {
   background-color: var(--bs-body-bg);
-  border-bottom: 1px solid var(--bs-border-color);
-
-  .actions {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-}
-
-.auth-main {
-  flex: 1;
-  padding: 2rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.auth-footer {
-  padding: 1rem 0;
-  background-color: var(--bs-body-bg);
-  border-top: 1px solid var(--bs-border-color);
 }
 </style> 

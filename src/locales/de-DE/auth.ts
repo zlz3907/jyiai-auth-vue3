@@ -105,6 +105,11 @@ const auth: AuthMessages = {
       invalidCode: 'Ungültiger oder abgelaufener Code',
       systemError: 'Systemfehler, bitte versuchen Sie es später erneut'
     }
+  },
+  wxAuth: {
+    title: 'WeChat-Anmeldung',
+    subtitle: 'QR-Code mit WeChat scannen',
+    backToLogin: 'Zurück zur Anmeldung'
   }
 }
 

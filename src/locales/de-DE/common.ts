@@ -49,9 +49,10 @@ const common: CommonMessages = {
   },
   pageSelector: {
     title: 'Funktion wechseln',
-    dataset: 'Wissensdatenbank-Verwaltung',
-    agent: 'Agentenverwaltung'
-  }
+    dataset: 'Datensatzverwaltung',
+    agent: 'Agentverwaltung'
+  },
+  back: 'Zurück'
 }
 
 export default common 

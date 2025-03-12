@@ -1,3 +1,5 @@
+import type { LocaleMessages } from 'vue-i18n'
+
 export interface AuthMessages {
   forgot: {
     title: string
@@ -104,6 +106,11 @@ export interface AuthMessages {
       systemError: string
     }
   }
+  wxAuth: {
+    title: string
+    subtitle: string
+    backToLogin: string
+  }
 }
 
 export interface CommonMessages {
@@ -158,12 +165,10 @@ export interface CommonMessages {
     dataset: string
     agent: string
   }
+  back: string
 }
 
-export interface Messages {
-  auth: AuthMessages
-  common: CommonMessages
-}
+export type Messages = LocaleMessages<any>
 
 export interface Language {
   code: string

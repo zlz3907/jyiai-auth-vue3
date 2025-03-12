@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import type { ApiResponse, RequestConfig } from './types'
 import router from '@/router'
-import i18n from '@/locales'
-import { useToast } from 'vue-toastification'
+import Cookies from 'js-cookie'
+import storage from '@/utils/storage'
 
 // 创建 axios 实例
 const createRequest = (config: RequestConfig = {}): AxiosInstance => {
@@ -16,12 +16,10 @@ const createRequest = (config: RequestConfig = {}): AxiosInstance => {
     }
   })
 
-  const toast = useToast()
-
   // 请求拦截器
   instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-      const token = localStorage.getItem('token')
+      const token = Cookies.get('JYIAIToken')
       if (token && config.headers) {
         config.headers.Authorization = `Bearer ${token}`
       }
@@ -40,11 +38,8 @@ const createRequest = (config: RequestConfig = {}): AxiosInstance => {
       
       // 处理 401 未授权
       if (res?.code === 401) {
-        localStorage.removeItem('token')
-        localStorage.removeItem('userInfo')
-        
-        toast.warning(i18n.global.t('common.system.sessionExpired'))
-        
+        Cookies.remove('JYIAIToken')
+        storage.removeItem('userInfo')
         router.push('/auth/login')
         return Promise.reject(new Error('Unauthorized'))
       }
@@ -61,9 +56,8 @@ const createRequest = (config: RequestConfig = {}): AxiosInstance => {
       if (error.response) {
         switch (error.response.status) {
           case 401:
-            localStorage.removeItem('token')
-            localStorage.removeItem('userInfo')
-            toast.warning(i18n.global.t('common.system.sessionExpired'))
+            Cookies.remove('JYIAIToken')
+            storage.removeItem('userInfo')
             router.push('/auth/login')
             break
           case 403:
@@ -74,7 +68,6 @@ const createRequest = (config: RequestConfig = {}): AxiosInstance => {
             break
           case 413:
             console.error('Request entity too large')
-            toast.error("文件过大，上传失败")
             break
           case 500:
             console.error('Server error')

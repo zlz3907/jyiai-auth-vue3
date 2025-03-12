@@ -15,15 +15,20 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "declaration": true,
-    "declarationDir": "dist",
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
-    "types": ["vite/client", "node"]
+    "types": [
+      "vite/client"
+    ],
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }],
   "exclude": ["node_modules", "dist"]
 } 

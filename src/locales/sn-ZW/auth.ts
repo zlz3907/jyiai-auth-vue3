@@ -105,6 +105,11 @@ const auth: AuthMessages = {
       invalidCode: 'Code haina kukwana kana kuti yapera nguva',
       systemError: 'System error, ndapota edza zvakare pashure'
     }
+  },
+  wxAuth: {
+    title: 'WeChat Login',
+    subtitle: 'Scan QR code with WeChat',
+    backToLogin: 'Back to Login'
   }
 }
 
