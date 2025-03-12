@@ -1,6 +1,6 @@
 {
   "name": "@zhycit/jyiai-auth-vue3",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "author": "ZHYCIT <service@zhycit.com> (https://zhycit.com)",
   "description": "A reusable authentication component for frontend projects",
@@ -30,7 +30,6 @@
     "@vuelidate/validators": "^2.0.4",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
-    "bootstrap-vue-next": "^0.26.23",
     "crypto-js": "^4.2.0",
     "js-cookie": "^3.0.5",
     "vue": "^3.5.13",
