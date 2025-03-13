@@ -28,6 +28,7 @@ export interface AuthOptions {
   authKey?: string  // 添加 authKey 配置
   showHeader?: boolean
   showFooter?: boolean
+  thirdAuth?: string[]  // 第三方认证方式列表
 }
 
 declare module '@vue/runtime-core' {

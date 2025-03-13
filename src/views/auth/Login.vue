@@ -83,7 +83,7 @@
         </div>
 
         <!-- Divider -->
-        <div class="position-relative my-4">
+        <div class="position-relative my-4" v-if="showWechatLogin">
           <hr>
           <span class="position-absolute top-50 start-50 translate-middle px-3 bg-white small">
             {{ t('auth.register.form.or') }}
@@ -91,7 +91,7 @@
         </div>
 
         <!-- Social buttons -->
-        <div class="d-grid">
+        <div class="d-grid" v-if="showWechatLogin">
           <button type="button" 
                   class="btn btn-link p-2" 
                   style="height: 48px; width: 48px; margin: 0 auto;"
@@ -109,7 +109,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref, reactive, getCurrentInstance, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useVuelidate } from '@vuelidate/core'
@@ -127,6 +127,7 @@ export default defineComponent({
     const { t } = useI18n()
     const router = useRouter()
     const route = useRoute()
+    const { proxy } = getCurrentInstance()!
     // const userStore = useUserStore()
 
     const form = reactive<LoginForm>({
@@ -150,6 +151,13 @@ export default defineComponent({
     const loading = ref(false)
     const error = ref<string | null>(null)
     const showPassword = ref(false)
+    const showWechatLogin = ref(false)
+
+    // 检查是否显示微信登录
+    onMounted(() => {
+      const thirdAuth = proxy?.$JAC?.thirdAuth || []
+      showWechatLogin.value = Array.isArray(thirdAuth) && thirdAuth.indexOf('wechat') !== -1
+    })
 
     const togglePassword = () => {
       showPassword.value = !showPassword.value
@@ -227,7 +235,8 @@ export default defineComponent({
       handleSubmit,
       handleSendCode,
       t,
-      router
+      router,
+      showWechatLogin
     }
   }
 })
