@@ -46,11 +46,11 @@ export const userApi = {
      */
     async login(data: LoginParams) {
       // 使用 any 类型避免类型错误
-      const responseData: any = await request.post(`${baseURL}/user/login`, {
+      const response: any = await request.post(`${baseURL}/user/login`, {
         ...data,
         password: encryptPassword(data.password)
       })
-      
+      const responseData = response?.data?.data || {}
       console.log('response:', responseData)
       if (responseData?.token) {
         Cookies.set('JYIAIToken', responseData.token, {

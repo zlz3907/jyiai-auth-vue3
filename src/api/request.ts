@@ -33,7 +33,7 @@ const createRequest = (config: RequestConfig = {}): AxiosInstance => {
 
   // 响应拦截器
   instance.interceptors.response.use(
-    (response: AxiosResponse<ApiResponse>) => {
+    (response: AxiosResponse<any>) => {
       const res = response.data
       
       // 处理 401 未授权
@@ -49,7 +49,9 @@ const createRequest = (config: RequestConfig = {}): AxiosInstance => {
         return Promise.reject(new Error(res.message || 'Error'))
       }
       
-      return res.data
+      // 修改响应数据而不是直接返回 res
+      // response.data = res
+      return response
     },
     (error) => {
       // 错误处理

@@ -28,11 +28,8 @@
             <span class="input-group-text border-0 bg-transparent">
               <i class="bi bi-person fs-5"></i>
             </span>
-            <input type="text" 
-                   class="form-control border-0 bg-transparent shadow-none"
-                   v-model="form.username"
-                   @blur="v$.username.$touch()"
-                   :placeholder="t('auth.register.form.usernamePlaceholder')">
+            <input type="text" class="form-control border-0 bg-transparent shadow-none" v-model="form.username"
+              @blur="v$.username.$touch()" :placeholder="t('auth.register.form.usernamePlaceholder')">
           </div>
           <div class="text-danger small mt-1" v-if="v$.username.$error">
             {{ v$.username.$errors[0].$message }}
@@ -45,11 +42,8 @@
             <span class="input-group-text border-0 bg-transparent">
               <i class="bi bi-phone fs-5"></i>
             </span>
-            <input type="tel" 
-                   class="form-control border-0 bg-transparent shadow-none"
-                   v-model="form.phone"
-                   @blur="v$.phone.$touch()"
-                   :placeholder="t('auth.register.form.phonePlaceholder')">
+            <input type="tel" class="form-control border-0 bg-transparent shadow-none" v-model="form.phone"
+              @blur="v$.phone.$touch()" :placeholder="t('auth.register.form.phonePlaceholder')">
           </div>
           <div class="text-danger small mt-1" v-if="v$.phone.$error">
             {{ v$.phone.$errors[0].$message }}
@@ -62,15 +56,10 @@
             <span class="input-group-text border-0 bg-transparent">
               <i class="bi bi-shield-lock fs-5"></i>
             </span>
-            <input type="text" 
-                   class="form-control border-0 bg-transparent shadow-none"
-                   v-model="form.code"
-                   @blur="v$.code.$touch()"
-                   :placeholder="t('auth.register.form.codePlaceholder')">
-            <button class="btn btn-link text-primary border-0 px-3" 
-                    type="button"
-                    @click="handleSendCode"
-                    :disabled="!canSendCode || countdown > 0">
+            <input type="text" class="form-control border-0 bg-transparent shadow-none" v-model="form.code"
+              @blur="v$.code.$touch()" :placeholder="t('auth.register.form.codePlaceholder')">
+            <button class="btn btn-link text-primary border-0 px-3" type="button" @click="handleSendCode"
+              :disabled="!canSendCode || countdown > 0">
               {{ countdown > 0 ? `${countdown}s` : t('auth.register.form.getCode') }}
             </button>
           </div>
@@ -85,14 +74,10 @@
             <span class="input-group-text border-0 bg-transparent">
               <i class="bi bi-key fs-5"></i>
             </span>
-            <input :type="showPassword ? 'text' : 'password'"
-                   class="form-control border-0 bg-transparent shadow-none"
-                   v-model="form.password"
-                   @blur="v$.password.$touch()"
-                   :placeholder="t('auth.register.form.passwordPlaceholder')">
-            <button class="btn btn-link text-secondary border-0 px-3" 
-                    type="button" 
-                    @click="togglePassword">
+            <input :type="showPassword ? 'text' : 'password'" class="form-control border-0 bg-transparent shadow-none"
+              v-model="form.password" @blur="v$.password.$touch()"
+              :placeholder="t('auth.register.form.passwordPlaceholder')">
+            <button class="btn btn-link text-secondary border-0 px-3" type="button" @click="togglePassword">
               <i class="bi" :class="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
             </button>
           </div>
@@ -102,9 +87,7 @@
           <!-- Password strength indicator -->
           <div class="mt-2 small text-secondary" v-if="form.password">
             <div class="progress" style="height: 4px;">
-              <div class="progress-bar" 
-                   :class="passwordStrengthClass" 
-                   :style="{ width: passwordStrength + '%' }">
+              <div class="progress-bar" :class="passwordStrengthClass" :style="{ width: passwordStrength + '%' }">
               </div>
             </div>
             <small class="mt-1 d-block">{{ passwordStrengthText }}</small>
@@ -113,15 +96,14 @@
 
         <!-- Confirm Password -->
         <div class="mb-3">
-          <div class="input-group input-group-lg border rounded-3" :class="{ 'border-danger': v$.confirmPassword.$error }">
+          <div class="input-group input-group-lg border rounded-3"
+            :class="{ 'border-danger': v$.confirmPassword.$error }">
             <span class="input-group-text border-0 bg-transparent">
               <i class="bi bi-key-fill fs-5"></i>
             </span>
-            <input :type="showPassword ? 'text' : 'password'"
-                   class="form-control border-0 bg-transparent shadow-none"
-                   v-model="form.confirmPassword"
-                   @blur="v$.confirmPassword.$touch()"
-                   :placeholder="t('auth.register.form.confirmPasswordPlaceholder')">
+            <input :type="showPassword ? 'text' : 'password'" class="form-control border-0 bg-transparent shadow-none"
+              v-model="form.confirmPassword" @blur="v$.confirmPassword.$touch()"
+              :placeholder="t('auth.register.form.confirmPasswordPlaceholder')">
           </div>
           <div class="text-danger small mt-1" v-if="v$.confirmPassword.$error">
             {{ v$.confirmPassword.$errors[0].$message }}
@@ -131,12 +113,8 @@
         <!-- Agreement -->
         <div class="mb-3">
           <div class="form-check">
-            <input type="checkbox"
-                   class="form-check-input"
-                   :class="{ 'is-invalid': v$.agreement.$error }"
-                   v-model="form.agreement"
-                   id="agreementCheck"
-                   @blur="v$.agreement.$touch()">
+            <input type="checkbox" class="form-check-input" :class="{ 'is-invalid': v$.agreement.$error }"
+              v-model="form.agreement" id="agreementCheck" @blur="v$.agreement.$touch()">
             <label class="form-check-label small" for="agreementCheck">
               {{ t('auth.register.form.agreement') }}
               <a href="#" class="text-primary text-decoration-none" @click.prevent="showTerms">
@@ -150,10 +128,8 @@
         </div>
 
         <!-- Submit Button -->
-        <button type="submit"
-                class="btn btn-lg w-100 mb-3"
-                :class="canSubmit ? 'btn-primary' : 'btn-secondary'"
-                :disabled="!canSubmit || loading || !form.agreement">
+        <button type="submit" class="btn btn-lg w-100 mb-3" :class="canSubmit ? 'btn-primary' : 'btn-secondary'"
+          :disabled="!canSubmit || loading || !form.agreement">
           <span class="spinner-border spinner-border-sm me-2" v-if="loading"></span>
           {{ loading ? t('common.system.loading') : t('auth.register.form.register') }}
         </button>
@@ -178,12 +154,9 @@
 
         <!-- Social buttons -->
         <div class="d-grid">
-          <button type="button" 
-                  class="btn btn-link p-2" 
-                  style="height: 48px; width: 48px; margin: 0 auto;"
-                  @click="router.push('/auth/wx-auth')">
-            <img src="https://api.zhycit.com/alioss2/icons/tubiaopng/wx_online.png" 
-                 alt="WeChat" width="32" height="32">
+          <button type="button" class="btn btn-link p-2" style="height: 48px; width: 48px; margin: 0 auto;"
+            @click="router.push('/auth/wx-auth')">
+            <img src="https://api.zhycit.com/alioss2/icons/tubiaopng/wx_online.png" alt="WeChat" width="32" height="32">
           </button>
         </div>
       </form>
@@ -204,6 +177,7 @@ import * as bootstrap from 'bootstrap'
 import { userApi } from '@/api/user'
 import Terms from './Terms.vue'  // 导入 Terms 组件
 import type { RegisterForm, AuthFormRules } from './types'
+import type { ApiResponse } from '@/api/types'
 
 
 // 在 setup 前添加接口定义
@@ -235,14 +209,14 @@ export default defineComponent({
     })
 
     const rules: AuthFormRules = {
-      username: { 
+      username: {
         required: helpers.withMessage(() => t('auth.register.validation.usernameRequired'), required),
         minLength: helpers.withMessage(
-          ({ $params }) => t('auth.register.validation.usernameMinLength', { min: $params.min }), 
+          ({ $params }) => t('auth.register.validation.usernameMinLength', { min: $params.min }),
           minLength(3)
         ),
         maxLength: helpers.withMessage(
-          ({ $params }) => t('auth.register.validation.usernameMaxLength', { max: $params.max }), 
+          ({ $params }) => t('auth.register.validation.usernameMaxLength', { max: $params.max }),
           maxLength(20)
         )
       },
@@ -267,7 +241,7 @@ export default defineComponent({
       password: {
         required: helpers.withMessage(() => t('auth.register.validation.passwordRequired'), required),
         minLength: helpers.withMessage(
-          ({ $params }) => t('auth.register.validation.passwordMinLength', { min: $params.min }), 
+          ({ $params }) => t('auth.register.validation.passwordMinLength', { min: $params.min }),
           minLength(8)
         ),
         strongPassword: helpers.withMessage(
@@ -304,23 +278,23 @@ export default defineComponent({
     })
 
     const canSubmit = computed(() => {
-      return !v$.value.$invalid && 
-             form.verified && 
-             form.agreement && 
-             !loading.value
+      return !v$.value.$invalid &&
+        form.verified &&
+        form.agreement &&
+        !loading.value
     })
 
     const passwordStrength = computed(() => {
       const password = form.password
       if (!password) return 0
-      
+
       let strength = 0
       if (password.length >= 8) strength += 25
       if (/[A-Z]/.test(password)) strength += 25
       if (/[a-z]/.test(password)) strength += 25
       if (/[0-9]/.test(password)) strength += 12.5
       if (/[^A-Za-z0-9]/.test(password)) strength += 12.5
-      
+
       return Math.min(strength, 100)
     })
 
@@ -362,10 +336,10 @@ export default defineComponent({
     // 错误信息转换函数
     const translateError = (error: ApiError | string | null) => {
       if (!error) return ''
-      
+
       // 获取错误信息
       const message = typeof error === 'string' ? error : error.message || ''
-      
+
       return t(`auth.register.errors.${message}`, {}, {
         default: message
       })
@@ -374,19 +348,19 @@ export default defineComponent({
     // 发送验证码
     const handleSendCode = async () => {
       if (countdown.value > 0 || !canSendCode.value) return
-      
+
       try {
         await v$.value.phone.$touch()
         if (v$.value.phone.$error) return
 
         loading.value = true
         error.value = null
-        
+
         await userApi.auth.sendVerificationCode({
           phone: form.phone,
           type: 'register'
         })
-        
+
         countdown.value = 60
         countdownTimer = setInterval(() => {
           countdown.value--
@@ -411,21 +385,25 @@ export default defineComponent({
         try {
           loading.value = true
           error.value = null
-          
-          const res = await userApi.auth.verifyCode({
+
+          userApi.auth.verifyCode({
             phone: form.phone,
             code: newCode,
             type: 'register'
+          }).then((res: ApiResponse<any>) => {
+            console.log('code res:', res)
+
+            if (res?.data?.code === 200) {
+              form.verified = true
+            } else {
+              error.value = {
+                message: res?.data?.message
+              } as ApiError
+              form.verified = false
+            }
           })
-          
-          if (res.code === 200) {
-            form.verified = true
-          } else {
-            error.value = {
-              message: res.message
-            } as ApiError
-            form.verified = false
-          }
+
+
         } catch (err) {
           error.value = {
             message: (err as any)?.response?.data?.message || String(err)
@@ -443,7 +421,7 @@ export default defineComponent({
     const handleSubmit = async () => {
       const isValid = await v$.value.$validate()
       if (!isValid) return
-      
+
       if (!form.verified) {
         error.value = new Error(t('auth.register.validation.codeNotVerified'))
         return
@@ -451,7 +429,7 @@ export default defineComponent({
 
       loading.value = true
       error.value = null
-      
+
       try {
         await userApi.auth.register({
           username: form.username,
@@ -459,7 +437,7 @@ export default defineComponent({
           password: form.password,
           code: form.code
         })
-        
+
         router.push('/auth/login')
       } catch (err) {
         error.value = {
