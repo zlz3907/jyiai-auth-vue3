@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
-import type { ApiResponse, RequestConfig } from './types'
+import type { RequestConfig } from './types'
 import router from '@/router'
 import Cookies from 'js-cookie'
 import storage from '@/utils/storage'
