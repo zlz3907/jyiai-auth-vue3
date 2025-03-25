@@ -117,7 +117,7 @@
               v-model="form.agreement" id="agreementCheck" @blur="v$.agreement.$touch()">
             <label class="form-check-label small" for="agreementCheck">
               {{ t('auth.register.form.agreement') }}
-              <a href="#" class="text-primary text-decoration-none" @click.prevent="showTerms">
+              <a href="#" class="text-primary text-decoration-none" @click.prevent="acceptTerms">
                 {{ t('auth.register.form.terms') }}
               </a>
             </label>
