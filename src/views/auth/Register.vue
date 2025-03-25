@@ -145,7 +145,7 @@
         </div>
 
         <!-- Divider -->
-        <div class="position-relative my-4">
+        <div class="position-relative my-4" v-if="showWechatLogin">
           <hr>
           <span class="position-absolute top-50 start-50 translate-middle px-3 bg-white small">
             {{ t('auth.register.form.or') }}
@@ -153,7 +153,7 @@
         </div>
 
         <!-- Social buttons -->
-        <div class="d-grid">
+        <div class="d-grid" v-if="showWechatLogin">
           <button type="button" class="btn btn-link p-2" style="height: 48px; width: 48px; margin: 0 auto;"
             @click="router.push('/auth/wx-auth')">
             <img src="https://api.zhycit.com/alioss2/icons/tubiaopng/wx_online.png" alt="WeChat" width="32" height="32">
@@ -267,6 +267,7 @@ export default defineComponent({
     const success = ref(false)
     const countdown = ref(0)
     const showPassword = ref(false)
+    const showWechatLogin = ref(false)
     const termsModalEl = ref(null)  // 改名以避免混淆
     let termsModal: typeof bootstrap.Modal | null = null  // 使用 typeof 获取类型
     let countdownTimer: ReturnType<typeof setTimeout> | null = null
@@ -458,6 +459,10 @@ export default defineComponent({
           backdrop: 'static'
         })
       }
+
+      // 检查是否显示微信登录
+      const thirdAuth = proxy?.$JAC?.thirdAuth || []
+      showWechatLogin.value = Array.isArray(thirdAuth) && thirdAuth.indexOf('wechat') !== -1
     })
 
     onUnmounted(() => {
@@ -484,6 +489,7 @@ export default defineComponent({
       success,
       countdown,
       showPassword,
+      showWechatLogin,
       termsModalEl,
       termsModal,
       redirectCountdown,
