@@ -164,7 +164,7 @@
   </div>
 
   <!-- Terms Modal -->
-  <Terms ref="termsModalRef" @accept="acceptTerms" />
+  <!-- <Terms ref="termsModalRef" @accept="acceptTerms" /> -->
 </template>
 
 <script lang="ts">
@@ -175,7 +175,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, maxLength, helpers } from '@vuelidate/validators'
 import * as bootstrap from 'bootstrap'
 import { userApi } from '@/api/user'
-import Terms from './Terms.vue'  // 导入 Terms 组件
+// import Terms from './Terms.vue'  // 导入 Terms 组件
 import type { RegisterForm, AuthFormRules } from './types'
 import type { ApiResponse } from '@/api/types'
 
@@ -192,7 +192,7 @@ interface ApiError extends Error {
 export default defineComponent({
   name: 'Register',
   components: {
-    Terms
+    // Terms
   },
   setup() {
     const { t } = useI18n()
@@ -322,14 +322,14 @@ export default defineComponent({
     }
 
     // 在 setup 函数中添加 termsModalRef 的定义
-    const termsModalRef = ref<InstanceType<typeof Terms> | null>(null)
+    // const termsModalRef = ref<InstanceType<typeof Terms> | null>(null)
 
     // Terms 相关方法
-    const showTerms = () => {
-      if (termsModalRef.value) {
-        termsModalRef.value.showModal()
-      }
-    }
+    // const showTerms = () => {
+    //   if (termsModalRef.value) {
+    //     termsModalRef.value.showModal()
+    //   }
+    // }
 
     const acceptTerms = () => {
       form.agreement = true
@@ -500,13 +500,13 @@ export default defineComponent({
       passwordStrengthClass,
       passwordStrengthText,
       togglePassword,
-      showTerms,
+      // showTerms,
       acceptTerms,
       translateError,
       handleSendCode,
       handleSubmit,
       t,
-      termsModalRef,
+      // termsModalRef,
       router
     }
   }
