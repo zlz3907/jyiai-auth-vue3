@@ -17,7 +17,12 @@ const auth: AuthMessages = {
       codeRequired: '请输入验证码',
       passwordRequired: '请输入新密码'
     },
-    backToLogin: '返回登录'
+    backToLogin: '返回登录',
+    message: {
+      success: '密码重置成功，请使用新密码登录',
+      redirectingIn: '即将跳转到登录页面',
+      error: '密码重置失败，请稍后重试'
+    }
   },
   login: {
     title: '登录',
@@ -110,6 +115,38 @@ const auth: AuthMessages = {
     title: '微信登录',
     subtitle: '请使用微信扫描二维码登录',
     backToLogin: '返回账号登录'
+  },
+  terms: {
+    serviceTerms: '服务条款',
+    privacyPolicy: '隐私政策',
+    serviceTermsTitle: '服务条款',
+    serviceTermsIntro: '欢迎使用我们的服务。使用我们的平台即表示您同意这些条款。',
+    termsSection1: {
+      title: '1. 条款接受',
+      content: '访问和使用本服务即表示您接受并同意受本协议条款的约束。'
+    },
+    termsSection2: {
+      title: '2. 使用许可',
+      content: '仅允许临时访问我们网站上的材料（信息或软件），仅供个人、非商业临时查看。'
+    },
+    termsSection3: {
+      title: '3. 免责声明',
+      content: '我们网站上的材料按"原样"提供。我们不提供任何明示或暗示的保证，特此否认并否定所有其他保证，包括但不限于对适销性、特定用途适用性、知识产权或其他权利侵犯的默示保证或条件。'
+    },
+    privacyPolicyTitle: '隐私政策',
+    privacyPolicyIntro: '本隐私政策描述了我们如何收集、使用和处理您的个人信息。',
+    privacySection1: {
+      title: '1. 我们收集的信息',
+      content: '我们收集您直接提供给我们的信息，包括但不限于您的姓名、电子邮件地址以及您选择提供的任何其他信息。'
+    },
+    privacySection2: {
+      title: '2. 我们如何使用您的信息',
+      content: '我们使用收集的信息来运营、维护和为您提供服务的功能和特性，处理您的交易，并与您沟通。'
+    },
+    privacySection3: {
+      title: '3. 信息共享',
+      content: '除非在本政策中描述或获得您的同意，我们不会与第三方共享您的个人信息。'
+    }
   }
 }
 

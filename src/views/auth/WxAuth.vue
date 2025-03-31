@@ -1,14 +1,14 @@
 <template>
-  <div class="border-0 bg-transparent">
+  <div class="bg-base-100 rounded-box">
     <div class="card-body p-4">
       <!-- Title -->
       <div class="text-center mb-4">
-        <h1 class="fs-2 mt-2">{{ t('auth.wxAuth.title') }}</h1>
-        <p class="lead text-secondary mb-4">{{ t('auth.wxAuth.subtitle') }}</p>
+        <h1 class="text-3xl font-bold mt-2">{{ t('auth.wxAuth.title') }}</h1>
+        <p class="text-lg text-base-content/70 mb-4">{{ t('auth.wxAuth.subtitle') }}</p>
       </div>
 
       <!-- QR Code -->
-      <div v-if="!isMobile" class="gpt-qrcode d-flex justify-content-center">
+      <div v-if="!isMobile" class="gpt-qrcode flex justify-center">
         <iframe 
           id="wxIframe" 
           height="450px" 
@@ -19,7 +19,7 @@
 
       <!-- Back to login -->
       <div class="text-center mt-4">
-        <router-link to="/auth/login" class="text-primary text-decoration-none small">
+        <router-link to="/auth/login" class="link link-primary text-sm">
           {{ t('auth.wxAuth.backToLogin') }}
         </router-link>
       </div>
@@ -107,30 +107,30 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .gpt-qrcode {
   position: relative;
   max-width: 18.8rem;
   margin: auto;
-
-  &:before {
-    position: absolute;
-    content: "使用微信扫一扫登录";
-    text-align: center;
-    width: 100%;
-    padding: 0.5rem;
-    height: 7rem;
-    bottom: 0;
-    background: var(--bs-light) url("https://zhycit-static.oss-cn-beijing.aliyuncs.com/aimetaa/aimetaa.svg") no-repeat bottom;
-    background-size: 9rem !important;
-    background-position-y: 3rem !important;
-  }
 }
 
-[data-bs-theme=dark] {
+.gpt-qrcode:before {
+  position: absolute;
+  content: "使用微信扫一扫登录";
+  text-align: center;
+  width: 100%;
+  padding: 0.5rem;
+  height: 7rem;
+  bottom: 0;
+  background: hsl(var(--b2)) url("https://zhycit-static.oss-cn-beijing.aliyuncs.com/aimetaa/aimetaa.svg") no-repeat bottom;
+  background-size: 9rem !important;
+  background-position-y: 3rem !important;
+}
+
+[data-theme="dark"] {
   .gpt-qrcode {
     &:before {
-      background: var(--bs-light) url("https://zhycit-static.oss-cn-beijing.aliyuncs.com/aimetaa/aimetaa-light.svg") no-repeat bottom;
+      background: hsl(var(--b2)) url("https://zhycit-static.oss-cn-beijing.aliyuncs.com/aimetaa/aimetaa-light.svg") no-repeat bottom;
     }
   }
 }

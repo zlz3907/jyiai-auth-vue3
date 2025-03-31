@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+.jyiai-auth {
+  background-color: hsl(var(--b1));
+}

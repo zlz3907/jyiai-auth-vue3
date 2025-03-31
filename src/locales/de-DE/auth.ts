@@ -13,11 +13,16 @@ const auth: AuthMessages = {
       reset: 'Passwort zurücksetzen'
     },
     validation: {
-      phoneRequired: 'Bitte Telefonnummer eingeben',
-      codeRequired: 'Bitte Verifizierungscode eingeben',
-      passwordRequired: 'Bitte neues Passwort eingeben'
+      phoneRequired: 'Bitte geben Sie Ihre Telefonnummer ein',
+      codeRequired: 'Bitte geben Sie den Verifizierungscode ein',
+      passwordRequired: 'Bitte geben Sie ein neues Passwort ein'
     },
-    backToLogin: 'Zurück zum Login'
+    backToLogin: 'Zurück zum Login',
+    message: {
+      success: 'Passwort erfolgreich zurückgesetzt',
+      redirectingIn: 'Weiterleitung in {seconds} Sekunden',
+      error: 'Fehler beim Zurücksetzen des Passworts'
+    }
   },
   login: {
     title: 'Anmelden',
@@ -110,6 +115,38 @@ const auth: AuthMessages = {
     title: 'WeChat-Anmeldung',
     subtitle: 'QR-Code mit WeChat scannen',
     backToLogin: 'Zurück zur Anmeldung'
+  },
+  terms: {
+    serviceTerms: 'Nutzungsbedingungen',
+    privacyPolicy: 'Datenschutzerklärung',
+    serviceTermsTitle: 'Nutzungsbedingungen',
+    serviceTermsIntro: 'Willkommen bei unserem Service. Durch die Nutzung unserer Plattform akzeptieren Sie diese Bedingungen.',
+    termsSection1: {
+      title: '1. Annahme der Bedingungen',
+      content: 'Durch den Zugriff auf und die Nutzung dieses Services akzeptieren Sie und stimmen zu, durch die Bedingungen dieser Vereinbarung gebunden zu sein.'
+    },
+    termsSection2: {
+      title: '2. Nutzungslizenz',
+      content: 'Der temporäre Zugriff auf Materialien (Informationen oder Software) auf unserer Website wird nur für persönliche, nicht-kommerzielle vorübergehende Betrachtung gewährt.'
+    },
+    termsSection3: {
+      title: '3. Haftungsausschluss',
+      content: 'Die Materialien auf unserer Website werden "wie besehen" bereitgestellt. Wir geben keine Garantien, weder ausdrücklich noch stillschweigend, und lehnen hiermit alle anderen Garantien ab, einschließlich, aber nicht beschränkt auf stillschweigende Garantien der Handelsfähigkeit, Eignung für einen bestimmten Zweck oder Nichtverletzung geistiger Eigentumsrechte.'
+    },
+    privacyPolicyTitle: 'Datenschutzerklärung',
+    privacyPolicyIntro: 'Diese Datenschutzerklärung beschreibt, wie wir Ihre personenbezogenen Daten sammeln, verwenden und verarbeiten.',
+    privacySection1: {
+      title: '1. Informationen, die wir sammeln',
+      content: 'Wir sammeln Informationen, die Sie uns direkt zur Verfügung stellen, einschließlich, aber nicht beschränkt auf Ihren Namen, E-Mail-Adresse und alle anderen Informationen, die Sie bereitstellen möchten.'
+    },
+    privacySection2: {
+      title: '2. Wie wir Ihre Informationen verwenden',
+      content: 'Wir verwenden die gesammelten Informationen, um den Service zu betreiben, zu warten und Ihnen die Funktionen bereitzustellen, Ihre Transaktionen zu verarbeiten und mit Ihnen zu kommunizieren.'
+    },
+    privacySection3: {
+      title: '3. Informationsweitergabe',
+      content: 'Wir geben Ihre personenbezogenen Daten nicht an Dritte weiter, es sei denn, dies ist in dieser Richtlinie beschrieben oder Sie haben zugestimmt.'
+    }
   }
 }
 

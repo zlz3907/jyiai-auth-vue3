@@ -5,9 +5,8 @@ import i18n from './locales'
 import AuthLayout from './layouts/AuthLayout.vue'
 import routes from './router/routes'
 // 导入样式
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import './assets/styles/index.scss'
+
+import './assets/styles/index.css'
 
 // 导出路由配置和组件
 export { routes, AuthLayout }

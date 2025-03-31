@@ -1,90 +1,199 @@
 <template>
-  <!-- Title -->
-  <span class="mb-0 fs-1">🔑</span>
-  <h1 class="fs-2 mt-2">{{ t('auth.forgot.title') }}</h1>
-  <p class="lead mb-4">{{ t('auth.forgot.subtitle') }}</p>
-
-  <!-- Form START -->
-  <div>
-    <!-- Phone -->
-    <div class="mb-4">
-      <div class="input-group" :class="{ 
-        'is-invalid': (error && !form.phone) || (form.phone && !isPhoneValid),
-        'border-success': form.phone && isPhoneValid 
-      }">
-        <span class="input-group-text border-0">
-          <i class="bi bi-phone fs-5"></i>
-        </span>
-        <input type="tel" class="form-control form-control-lg ps-1" 
-               v-model="form.phone" 
-               :placeholder="t('auth.forgot.form.phonePlaceholder')"
-               :disabled="step === 2">
+  <div class="w-full max-w-sm">
+    <!-- Success State -->
+    <div v-if="isSuccess" class="text-center space-y-6">
+      <div class="flex justify-center mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
       </div>
-      <div class="invalid-feedback" v-if="form.phone && !isPhoneValid">
-        {{ t('auth.forgot.validation.phoneInvalid') }}
+      <div class="space-y-2">
+        <h2 class="text-xl font-medium">{{ t('auth.forgot.message.success') }}</h2>
+        <p class="text-base-content/60">{{ t('auth.forgot.message.redirectingIn', { seconds: redirectCountdown }) }}</p>
       </div>
-    </div>
-
-    <!-- Verification Code -->
-    <div class="mb-4" v-if="step === 2">
-      <div class="input-group" :class="{ 'is-invalid': error && !form.code }">
-        <span class="input-group-text border-0">
-          <i class="bi bi-shield-lock fs-5"></i>
-        </span>
-        <input type="text" class="form-control form-control-lg ps-1" 
-               v-model="form.code" 
-               :placeholder="t('auth.forgot.form.codePlaceholder')">
-        <button class="btn btn-outline-secondary border-0" type="button" 
-                @click="handleSendCode" 
-                :disabled="countdown > 0">
-          {{ countdown > 0 ? `${countdown}s` : t('auth.forgot.form.sendCode') }}
+      <div class="pt-2">
+        <button class="btn btn-primary w-full h-10 min-h-0" @click="goToLogin">
+          {{ t('auth.forgot.backToLogin') }}
         </button>
       </div>
     </div>
 
-    <!-- New Password -->
-    <div class="mb-4" v-if="step === 2">
-      <div class="input-group" :class="{ 'is-invalid': error && !form.newPassword }">
-        <span class="input-group-text border-0">
-          <i class="bi bi-key fs-5"></i>
-        </span>
-        <input :type="showPassword ? 'text' : 'password'" 
-               class="form-control form-control-lg ps-1" 
-               v-model="form.newPassword" 
-               :placeholder="t('auth.forgot.form.newPasswordPlaceholder')">
-        <button class="btn btn-outline-secondary border-0" type="button" @click="togglePassword">
-          <i class="bi" :class="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
-        </button>
+    <!-- Main Form -->
+    <div v-else>
+      <!-- Title -->
+      <h1 class="text-xl font-medium text-center mb-6">{{ t('auth.forgot.title') }}</h1>
+      <p class="text-sm text-center mb-6 text-base-content/60">{{ t('auth.forgot.subtitle') }}</p>
+
+      <!-- Error Alert -->
+      <div v-if="error" class="alert alert-error mb-4 p-3">
+        <div class="flex items-center w-full">
+          <div class="flex items-center gap-2 flex-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-4 w-4" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-sm">{{ error }}</span>
+          </div>
+          <button class="btn btn-ghost btn-xs p-0 min-h-0 h-4 w-4 ml-2" @click="error = null">✕</button>
+        </div>
       </div>
-    </div>
 
-    <!-- Submit Button -->
-    <div class="d-grid">
-      <button type="button" 
-              class="btn btn-primary btn-lg" 
-              @click="handleSubmit" 
-              :disabled="loading || (step === 1 && (!form.phone || !isPhoneValid))">
-        <span class="spinner-border spinner-border-sm me-2" v-if="loading"></span>
-        {{ loading ? t('common.system.loading') : buttonText }}
-      </button>
-    </div>
+      <form @submit.prevent="handleSubmit" class="space-y-4">
+        <!-- Phone Input -->
+        <div class="form-control w-full">
+          <label class="label pt-0">
+            <span class="label-text">{{ t('auth.login.form.phone') }}</span>
+          </label>
+          <input type="tel" 
+            :placeholder="t('auth.forgot.form.phonePlaceholder')" 
+            class="input input-bordered w-full h-10"
+            :class="{ 'input-error': v$.phone.$error }"
+            v-model="form.phone" 
+            :disabled="step === 2"
+            @blur="v$.phone.$touch()" />
+          <label class="label py-0.5" v-if="v$.phone.$error">
+            <span class="label-text-alt text-error text-xs">{{ v$.phone.$errors[0].$message }}</span>
+          </label>
+        </div>
 
-    <!-- Back to Login -->
-    <div class="mt-4 text-center">
-      <p class="mb-0">
-        <router-link to="/auth/login" class="text-primary">
-          <i class="bi bi-arrow-left me-1"></i>{{ t('auth.forgot.backToLogin') }}
-        </router-link>
-      </p>
-    </div>
+        <!-- Verification Code -->
+        <div class="form-control" v-if="step === 2">
+          <label class="label pt-0">
+            <span class="label-text">{{ t('auth.register.form.code') }}</span>
+          </label>
+          <div class="join w-full">
+            <input type="text" 
+              :placeholder="t('auth.forgot.form.codePlaceholder')" 
+              class="input input-bordered join-item flex-1 h-10"
+              :class="{ 'input-error': v$.code.$error }"
+              v-model="form.code"
+              @blur="v$.code.$touch()" />
+            <button type="button"
+              class="btn join-item h-10 min-h-0" 
+              :class="countdown > 0 ? 'btn-disabled' : 'btn-primary'"
+              @click="handleSendCode">
+              {{ countdown > 0 ? `${countdown}s` : t('auth.forgot.form.sendCode') }}
+            </button>
+          </div>
+          <label class="label py-0.5" v-if="v$.code.$error">
+            <span class="label-text-alt text-error text-xs">{{ v$.code.$errors[0].$message }}</span>
+          </label>
+        </div>
 
-    <!-- Alert -->
-    <div class="alert-container" style="min-height: 60px">
-      <div class="alert alert-danger d-flex align-items-center mt-3" role="alert" v-if="error">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-        <div class="small">{{ error.message }}</div>
-        <button type="button" class="btn-close ms-auto" @click="error = null"></button>
-      </div>
+        <!-- New Password -->
+        <div class="form-control" v-if="step === 2">
+          <label class="label pt-0">
+            <span class="label-text">{{ t('auth.register.form.password') }}</span>
+          </label>
+          <div class="join w-full">
+            <input :type="showPassword ? 'text' : 'password'" 
+              :placeholder="t('auth.forgot.form.newPasswordPlaceholder')" 
+              class="input input-bordered join-item flex-1 h-10"
+              :class="{ 'input-error': v$.newPassword.$error }"
+              v-model="form.newPassword"
+              @blur="v$.newPassword.$touch()" />
+            <button type="button" 
+              class="btn join-item h-10 min-h-0 px-3" 
+              @click="togglePassword"
+              :aria-label="showPassword ? 'Hide password' : 'Show password'">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                class="h-4 w-4" 
+                :class="{ 'opacity-50': !showPassword }"
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor">
+                <path 
+                  v-if="!showPassword"
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2" 
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path 
+                  v-if="!showPassword"
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                <path
+                  v-if="showPassword"
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+              </svg>
+            </button>
+          </div>
+          <label class="label py-0.5" v-if="v$.newPassword.$error">
+            <span class="label-text-alt text-error text-xs">{{ v$.newPassword.$errors[0].$message }}</span>
+          </label>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-control" v-if="step === 2">
+          <label class="label pt-0">
+            <span class="label-text">{{ t('auth.register.form.confirmPassword') }}</span>
+          </label>
+          <div class="join w-full">
+            <input :type="showPassword ? 'text' : 'password'" 
+              :placeholder="t('auth.register.form.confirmPasswordPlaceholder')" 
+              class="input input-bordered join-item flex-1 h-10"
+              :class="{ 'input-error': v$.confirmPassword.$error }"
+              v-model="form.confirmPassword"
+              @blur="v$.confirmPassword.$touch()" />
+            <button type="button" 
+              class="btn join-item h-10 min-h-0 px-3" 
+              @click="togglePassword"
+              :aria-label="showPassword ? 'Hide password' : 'Show password'">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                class="h-4 w-4" 
+                :class="{ 'opacity-50': !showPassword }"
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor">
+                <path 
+                  v-if="!showPassword"
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2" 
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path 
+                  v-if="!showPassword"
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                <path
+                  v-if="showPassword"
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+              </svg>
+            </button>
+          </div>
+          <label class="label py-0.5" v-if="v$.confirmPassword.$error">
+            <span class="label-text-alt text-error text-xs">{{ v$.confirmPassword.$errors[0].$message }}</span>
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="w-full">
+          <button type="submit" 
+            class="btn btn-primary w-full h-10 min-h-0" 
+            :disabled="(step === 1 ? v$.phone.$invalid : v$.$invalid) || loading">
+            <span v-if="loading" class="loading loading-spinner loading-xs"></span>
+            {{ loading ? t('common.system.loading') : buttonText }}
+          </button>
+        </div>
+
+        <!-- Back to Login -->
+        <div class="text-center text-sm mt-4">
+          <router-link to="/auth/login" class="link link-primary">
+            {{ t('auth.forgot.backToLogin') }}
+          </router-link>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -93,13 +202,24 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useVuelidate } from '@vuelidate/core'
+import { required, minLength, helpers } from '@vuelidate/validators'
 import { userApi } from '@/api/user'
 import type { ForgotPasswordForm } from './types'
 
 const router = useRouter()
 const { t } = useI18n()
 
-// 使用类型定义
+// UI state
+const loading = ref(false)
+const error = ref<string | null>(null)
+const showPassword = ref(false)
+const step = ref(1)
+const countdown = ref(0)
+const isSuccess = ref(false)
+const redirectCountdown = ref(5)
+
+// Form state
 const form = ref<ForgotPasswordForm>({
   phone: '',
   code: '',
@@ -107,18 +227,35 @@ const form = ref<ForgotPasswordForm>({
   confirmPassword: ''
 })
 
-const loading = ref(false)
-const error = ref<Error | null>(null)
-const showPassword = ref(false)
-const step = ref(1)
-const countdown = ref(0)
+// Validation rules
+const rules = {
+  phone: {
+    required: helpers.withMessage(() => t('auth.forgot.validation.phoneRequired'), required),
+    minLength: helpers.withMessage(() => t('auth.register.validation.phoneFormat'), minLength(11))
+  },
+  code: {
+    required: helpers.withMessage(() => t('auth.forgot.validation.codeRequired'), required)
+  },
+  newPassword: {
+    required: helpers.withMessage(() => t('auth.forgot.validation.passwordRequired'), required),
+    minLength: helpers.withMessage(({ $params }) => t('auth.register.validation.passwordMinLength', { min: $params.min }), minLength(6))
+  },
+  confirmPassword: {
+    required: helpers.withMessage(() => t('auth.register.validation.confirmPasswordRequired'), required),
+    sameAsPassword: helpers.withMessage(() => t('auth.register.validation.passwordMismatch'), (value) => value === form.value.newPassword)
+  }
+}
 
+const v$ = useVuelidate(rules, form)
+
+// Computed
 const buttonText = computed(() => {
   return step.value === 1 
     ? t('auth.forgot.form.next') 
     : t('auth.forgot.form.reset')
 })
 
+// Methods
 const togglePassword = () => {
   showPassword.value = !showPassword.value
 }
@@ -133,98 +270,67 @@ const startCountdown = () => {
   }, 1000)
 }
 
-// 添加手机号验证函数
-const isValidPhone = (phone: string): boolean => {
-  // 中国大陆手机号验证规则
-  const phoneRegex = /^1[3-9]\d{9}$/
-  return phoneRegex.test(phone)
-}
-
-// 添加手机号验证状态
-const isPhoneValid = computed(() => {
-  return form.value.phone ? isValidPhone(form.value.phone) : false
-})
-
 const handleSendCode = async () => {
-  if (!form.value.phone) {
-    error.value = new Error(t('auth.forgot.validation.phoneRequired'))
-    return
-  }
+  const isValid = await v$.value.phone.$validate()
+  if (!isValid) return
 
-  if (!isValidPhone(form.value.phone)) {
-    error.value = new Error(t('auth.forgot.validation.phoneInvalid'))
-    return
-  }
-  
   try {
     loading.value = true
     error.value = null
     
-    // 使用新的 API 调用
     await userApi.auth.sendVerificationCode({
       phone: form.value.phone,
       type: 'forgot_password'
     })
     
     startCountdown()
-  } catch (err) {
-    error.value = {
-      message: (err as any)?.response?.data?.message || String(err)
-    } as Error
+  } catch (err: any) {
+    error.value = err?.response?.data?.message || err?.message || t('common.system.error')
   } finally {
     loading.value = false
   }
 }
 
+const goToLogin = () => {
+  router.push({
+    path: '/auth/login',
+    query: { message: t('auth.login.passwordResetSuccess') }
+  })
+}
+
 const handleSubmit = async () => {
-  if (!form.value.phone) {
-    error.value = new Error(t('auth.forgot.validation.phoneRequired'))
-    return
-  }
-
-  if (!isValidPhone(form.value.phone)) {
-    error.value = new Error(t('auth.forgot.validation.phoneInvalid'))
-    return
-  }
-
   if (step.value === 1) {
+    const isPhoneValid = await v$.value.phone.$validate()
+    if (!isPhoneValid) return
+
     step.value = 2
-    handleSendCode()
+    await handleSendCode()
     return
   }
 
-  if (!form.value.code) {
-    error.value = new Error(t('auth.forgot.validation.codeRequired'))
-    return
-  }
-
-  if (!form.value.newPassword) {
-    error.value = new Error(t('auth.forgot.validation.passwordRequired'))
-    return
-  }
+  const isValid = await v$.value.$validate()
+  if (!isValid) return
 
   try {
     loading.value = true
     error.value = null
 
-    // 使用新的 API 调用
     await userApi.auth.resetPassword({
       phone: form.value.phone,
       code: form.value.code,
       newPassword: form.value.newPassword
     })
 
-    router.push({
-      path: '/auth/login',
-      query: { 
-        phone: form.value.phone,
-        resetSuccess: 'true'
+    isSuccess.value = true
+    const timer = setInterval(() => {
+      redirectCountdown.value--
+      if (redirectCountdown.value <= 0) {
+        clearInterval(timer)
+        goToLogin()
       }
-    })
-  } catch (err) {
-    error.value = {
-      message: (err as any)?.response?.data?.message || String(err)
-    } as Error
+    }, 1000)
+  } catch (err: any) {
+    error.value = err?.response?.data?.message || err?.message || t('common.system.error')
   } finally {
     loading.value = false
   }
@@ -232,86 +338,35 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
-/* 复用 Login.vue 的样式 */
-.input-group {
-  border: 1px solid var(--bs-border-color);
-  border-radius: 0.5rem;
-  transition: all 0.2s ease-in-out;
-}
-
-.input-group:focus-within {
-  border-color: var(--bs-primary);
-  box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
-}
-
-.input-group-text {
-  background-color: transparent;
-  border: none;
-  border-right: 1px solid var(--bs-border-color);
-  color: var(--bs-gray-600);
-  padding: 0.75rem 1rem;
-  min-width: 46px;
-  display: flex;
-  justify-content: center;
-}
-
+/* 移除旧的 Bootstrap 样式 */
 .form-control {
-  border: none;
-  padding: 0.75rem 1rem;
-  background-color: transparent;
-  color: var(--bs-body-color);
-}
-
-.form-control::placeholder {
-  color: var(--bs-gray-400);
-  opacity: 0.65;
-}
-
-:root[data-bs-theme="dark"] .input-group {
-  background-color: var(--bs-dark);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-:root[data-bs-theme="dark"] .input-group-text {
-  border-right-color: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-}
-
-:root[data-bs-theme="dark"] .form-control::placeholder {
-  color: rgba(255, 255, 255, 0.35);
-}
-
-.alert-container {
-  position: relative;
-  margin-top: 1rem;
+  @apply w-full;
 }
 
 .alert {
-  position: absolute;
-  left: 0;
-  right: 0;
-  animation: fadeIn 0.3s ease-in-out;
+  @apply relative flex items-center;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* 添加过渡动画 */
+.alert-enter-active,
+.alert-leave-active {
+  transition: all 0.3s ease;
 }
 
-.invalid-feedback {
-  display: block;
-  font-size: 0.875em;
-  color: var(--bs-danger);
-  margin-top: 0.25rem;
+.alert-enter-from,
+.alert-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
-.input-group.border-success {
-  border-color: var(--bs-success);
+/* Add fade transition for success state */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style> 

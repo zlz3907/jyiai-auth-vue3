@@ -1,0 +1,44 @@
+{
+  "projectContext": "This is a Vue 3-based login/registration component project using Vite, Tailwind CSS, and DaisyUI.",
+  "codingStandards": {
+    "useCompositionAPI": true,
+    "preferConst": true,
+    "namingConventions": {
+      "variables": "camelCase",
+      "functions": "camelCase",
+      "components": "PascalCase"
+    }
+  },
+  "preferredLibraries": {
+    "routing": "vue-router",
+    "stateManagement": "Pinia",
+    "styling": "Tailwind CSS with DaisyUI"
+  },
+  "fileStructure": {
+    "components": "src/components",
+    "views": "src/views",
+    "styles": "src/assets/styles",
+    "store": "src/store",
+    "router": "src/router"
+  },
+  "performanceGuidelines": {
+    "useLazyLoading": true,
+    "optimizeReactivity": true
+  },
+  "testingRequirements": {
+    "framework": "Jest",
+    "coverage": "80%",
+    "snapshotTests": true
+  },
+  "documentationGuidelines": {
+    "useJSDoc": true,
+    "includePropTypes": true,
+    "maintainReadme": true
+  },
+  "errorHandlingPreferences": {
+    "useTryCatch": true,
+    "globalErrorBoundary": true,
+    "logErrors": "Sentry"
+  }
+}
+

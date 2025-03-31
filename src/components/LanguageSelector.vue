@@ -1,58 +1,50 @@
 <template>
-  <div class="dropdown">
-    <button class="btn dropdown-toggle mb-0" 
-            type="button" 
-            ref="dropdownButton"
-            data-bs-toggle="dropdown" 
-            aria-expanded="false">
-      <!-- <i class="bi bi-globe me-2"></i> -->
-      <span class="me-2">{{ languages.find(lang => lang.code === locale)?.flag }}</span>
-      <span class="d-none d-lg-inline-block">{{ languages.find(lang => lang.code === locale)?.name }}</span>
-    </button>
-    <ul class="dropdown-menu dropdown-menu-end">
-      <li v-for="lang in languages" :key="lang.code">
-        <a class="dropdown-item" 
-           href="#"
-           @click.prevent="changeLanguage(lang)"
-           :class="{ 'active': lang.code === locale }">
-          <span class="me-2">{{ lang.flag }}</span>
-          {{ lang.name }}
-        </a>
+  <div class="dropdown dropdown-end">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm h-9 px-2">
+      <div class="w-4 h-4 flex items-center justify-center">
+        <span class="text-base leading-none">{{ currentLanguage?.flag }}</span>
+      </div>
+    </div>
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-2">
+      <li v-for="lang in availableLanguages" :key="lang.code">
+        <button
+          @click="changeLanguage(lang)"
+          :class="{ 'active': lang.code === locale }"
+          class="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-base-200 transition-colors"
+        >
+          <span class="text-base leading-none">{{ lang.flag }}</span>
+          <span class="text-sm">{{ lang.name }}</span>
+        </button>
       </li>
     </ul>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { availableLanguages, setLanguage } from '@/locales'
 import type { Language } from '@/locales/types'
-import { Dropdown } from 'bootstrap'  // 导入 Bootstrap 的 Dropdown
 
-export default defineComponent({
-  name: 'LanguageSelector',
-  setup() {
-    const { locale } = useI18n()
-    const dropdownButton = ref<HTMLElement | null>(null)
+const { locale } = useI18n()
 
-    const changeLanguage = (lang: Language) => {
-      setLanguage(lang.code)
-    }
+const currentLanguage = computed(() => 
+  availableLanguages.find(lang => lang.code === locale.value)
+)
 
-    onMounted(() => {
-      // 手动初始化 dropdown
-      if (dropdownButton.value) {
-        new Dropdown(dropdownButton.value)
-      }
-    })
+const changeLanguage = (lang: Language) => {
+  setLanguage(lang.code)
+}
+</script>
 
-    return {
-      locale,
-      languages: availableLanguages,
-      changeLanguage,
-      dropdownButton
-    }
+<style scoped>
+.active {
+  background-color: rgb(243 244 246);
+}
+
+@media (prefers-color-scheme: dark) {
+  .active {
+    background-color: rgb(55 65 81);
   }
-})
-</script> 
+}
+</style> 

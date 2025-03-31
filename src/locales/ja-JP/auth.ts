@@ -17,7 +17,12 @@ const auth: AuthMessages = {
       codeRequired: '認証コードを入力してください',
       passwordRequired: '新しいパスワードを入力してください'
     },
-    backToLogin: 'ログインに戻る'
+    backToLogin: 'ログインに戻る',
+    message: {
+      success: 'パスワードのリセットが完了しました',
+      redirectingIn: '{seconds}秒後にリダイレクトします',
+      error: 'パスワードのリセットに失敗しました'
+    }
   },
   login: {
     title: 'ログイン',
@@ -110,6 +115,38 @@ const auth: AuthMessages = {
     title: 'WeChatログイン',
     subtitle: 'WeChatでQRコードをスキャン',
     backToLogin: 'ログインに戻る'
+  },
+  terms: {
+    serviceTerms: '利用規約',
+    privacyPolicy: 'プライバシーポリシー',
+    serviceTermsTitle: '利用規約',
+    serviceTermsIntro: '当サービスをご利用いただき、ありがとうございます。当プラットフォームをご利用いただくことで、これらの規約に同意されたものとみなされます。',
+    termsSection1: {
+      title: '1. 規約の同意',
+      content: '本サービスを利用することにより、本規約に同意し、その条件に拘束されることに同意したものとみなされます。'
+    },
+    termsSection2: {
+      title: '2. 利用ライセンス',
+      content: '当ウェブサイト上の資料（情報またはソフトウェア）への一時的なアクセスが許可されます。これは個人の非商業目的の一時的な閲覧のみを目的としています。'
+    },
+    termsSection3: {
+      title: '3. 免責事項',
+      content: '当ウェブサイト上の資料は「現状のまま」提供されます。明示的または黙示的な保証は一切提供されず、商品性、特定目的への適合性、知的財産権の侵害またはその他の権利侵害に関する保証を含む、その他のすべての保証を否認します。'
+    },
+    privacyPolicyTitle: 'プライバシーポリシー',
+    privacyPolicyIntro: '本プライバシーポリシーでは、お客様の個人情報の収集、使用、取り扱いについて説明します。',
+    privacySection1: {
+      title: '1. 収集する情報',
+      content: 'お客様から直接提供される情報を収集します。これには、お名前、メールアドレス、およびお客様が選択して提供されるその他の情報が含まれます。'
+    },
+    privacySection2: {
+      title: '2. 情報の使用方法',
+      content: '収集した情報は、サービスの運営、維持、機能の提供、取引の処理、およびお客様とのコミュニケーションに使用します。'
+    },
+    privacySection3: {
+      title: '3. 情報の共有',
+      content: '本ポリシーで説明されている場合またはお客様の同意がある場合を除き、お客様の個人情報を第三者と共有することはありません。'
+    }
   }
 }
 

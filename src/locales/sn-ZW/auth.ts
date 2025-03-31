@@ -13,11 +13,16 @@ const auth: AuthMessages = {
       reset: 'Reset Password'
     },
     validation: {
-      phoneRequired: 'Ndapota isa nhamba yerunhare',
-      codeRequired: 'Ndapota isa code yekuverifier',
+      phoneRequired: 'Ndapota isa nhamba yefoni',
+      codeRequired: 'Ndapota isa kodhi yekusimbisa',
       passwordRequired: 'Ndapota isa password itsva'
     },
-    backToLogin: 'Dzokera kuLogin'
+    backToLogin: 'Dzokera kuLogin',
+    message: {
+      success: 'Password yakadzoserwa zvinobudirira',
+      redirectingIn: 'Kudzosera mu {seconds} masekondi',
+      error: 'Kukundikana kudzosera password'
+    }
   },
   login: {
     title: 'Login',
@@ -110,6 +115,38 @@ const auth: AuthMessages = {
     title: 'WeChat Login',
     subtitle: 'Scan QR code with WeChat',
     backToLogin: 'Back to Login'
+  },
+  terms: {
+    serviceTerms: 'Terms of Service',
+    privacyPolicy: 'Privacy Policy',
+    serviceTermsTitle: 'Terms of Service',
+    serviceTermsIntro: 'Tinokugamuchira kuchishandiso chedu. Kushandisa platform yedu kunoreva kuti unobvuma aya matemu.',
+    termsSection1: {
+      title: '1. Kubvuma Matemu',
+      content: 'Kushandisa chishandiso ichi kunoreva kuti unobvuma uye unobvumirana nemitemu yechibvumirano ichi.'
+    },
+    termsSection2: {
+      title: '2. Rezinesi Rekushandisa',
+      content: 'Mvumo inopihwa yekushandisa zvinyorwa (ruzivo kana software) pawebhusaiti yedu kwenguva pfupi, chete kune vanhu, kwete kushandiswa kwekutengesa.'
+    },
+    termsSection3: {
+      title: '3. Disclaimer',
+      content: 'Zvinyorwa pawebhusaiti yedu zvinopihwa "sezvazviri". Hatipi vimbiso, dzakajeka kana dzisina kujeka, uye tinoramba uye tinoramba vimbiso dzose dzimwe, kusanganisira, pasina muganho, vimbiso dzekutengesa, kukodzera kwechinangwa chakati, kana kutyorwa kwekodzero.'
+    },
+    privacyPolicyTitle: 'Privacy Policy',
+    privacyPolicyIntro: 'Aya Privacy Policy anotsanangura kuti tinotora sei, tinoshandisa sei, uye tinobata sei ruzivo rwako.',
+    privacySection1: {
+      title: '1. Ruzivo Rwatiri Kutora',
+      content: 'Tinotora ruzivo rwamunotipa, kusanganisira asi pasina muganho zita rako, email address, uye chero ruzivo rwamunosarudza kupa.'
+    },
+    privacySection2: {
+      title: '2. Mashandisiro Eruzivo Rwako',
+      content: 'Tinoshandisa ruzivo rwatinotora kushandisa, kuchengetedza, uye kukupa mabasa echishandiso, kugadzirisa kutengeserana kwako, uye kutaura newe.'
+    },
+    privacySection3: {
+      title: '3. Kugovera Ruzivo',
+      content: 'Hatigoveri ruzivo rwako nevanhu vekunze kunze kwekunge zvataurwa mumutemo uyu kana kuti mwabvuma.'
+    }
   }
 }
 

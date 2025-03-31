@@ -13,11 +13,16 @@ const auth: AuthMessages = {
       reset: 'Réinitialiser le mot de passe'
     },
     validation: {
-      phoneRequired: 'Veuillez saisir votre numéro de téléphone',
-      codeRequired: 'Veuillez saisir le code de vérification',
-      passwordRequired: 'Veuillez saisir le nouveau mot de passe'
+      phoneRequired: 'Veuillez entrer votre numéro de téléphone',
+      codeRequired: 'Veuillez entrer le code de vérification',
+      passwordRequired: 'Veuillez entrer un nouveau mot de passe'
     },
-    backToLogin: 'Retour à la connexion'
+    backToLogin: 'Retour à la connexion',
+    message: {
+      success: 'Mot de passe réinitialisé avec succès',
+      redirectingIn: 'Redirection dans {seconds} secondes',
+      error: 'Échec de la réinitialisation du mot de passe'
+    }
   },
   login: {
     title: 'Connexion',
@@ -110,6 +115,38 @@ const auth: AuthMessages = {
     title: 'Connexion WeChat',
     subtitle: 'Scanner le code QR avec WeChat',
     backToLogin: 'Retour à la connexion'
+  },
+  terms: {
+    serviceTerms: "Conditions d'utilisation",
+    privacyPolicy: 'Politique de confidentialité',
+    serviceTermsTitle: "Conditions d'utilisation",
+    serviceTermsIntro: 'Bienvenue sur notre service. En utilisant notre plateforme, vous acceptez ces conditions.',
+    termsSection1: {
+      title: '1. Acceptation des conditions',
+      content: "En accédant et en utilisant ce service, vous acceptez et convenez d'être lié par les conditions de cet accord."
+    },
+    termsSection2: {
+      title: '2. Licence d\'utilisation',
+      content: 'L\'accès temporaire aux documents (informations ou logiciels) sur notre site web est accordé uniquement pour une consultation personnelle et non commerciale.'
+    },
+    termsSection3: {
+      title: '3. Clause de non-responsabilité',
+      content: 'Les documents sur notre site web sont fournis "tels quels". Nous ne fournissons aucune garantie, expresse ou implicite, et rejetons par la présente toutes les autres garanties, y compris, sans limitation, les garanties implicites de qualité marchande, d\'adéquation à un usage particulier ou de non-violation des droits de propriété intellectuelle.'
+    },
+    privacyPolicyTitle: 'Politique de confidentialité',
+    privacyPolicyIntro: 'Cette politique de confidentialité décrit comment nous collectons, utilisons et traitons vos informations personnelles.',
+    privacySection1: {
+      title: '1. Informations que nous collectons',
+      content: 'Nous collectons les informations que vous nous fournissez directement, y compris, sans limitation, votre nom, adresse e-mail et toute autre information que vous choisissez de fournir.'
+    },
+    privacySection2: {
+      title: '2. Comment nous utilisons vos informations',
+      content: 'Nous utilisons les informations collectées pour exploiter, maintenir et vous fournir les fonctionnalités du service, traiter vos transactions et communiquer avec vous.'
+    },
+    privacySection3: {
+      title: '3. Partage d\'informations',
+      content: 'Nous ne partageons pas vos informations personnelles avec des tiers, sauf comme décrit dans cette politique ou avec votre consentement.'
+    }
   }
 }
 

@@ -17,7 +17,12 @@ const auth: AuthMessages = {
       codeRequired: 'Please enter verification code',
       passwordRequired: 'Please enter new password'
     },
-    backToLogin: 'Back to Login'
+    backToLogin: 'Back to Login',
+    message: {
+      success: 'Password reset successful',
+      redirectingIn: 'Redirecting in {seconds} seconds',
+      error: 'Failed to reset password'
+    }
   },
   login: {
     title: 'Login',
@@ -110,6 +115,38 @@ const auth: AuthMessages = {
     title: 'WeChat Login',
     subtitle: 'Scan QR code with WeChat to login',
     backToLogin: 'Back to Login'
+  },
+  terms: {
+    serviceTerms: 'Service Terms',
+    privacyPolicy: 'Privacy Policy',
+    serviceTermsTitle: 'Terms of Service',
+    serviceTermsIntro: 'Welcome to our service. By using our platform, you agree to these terms.',
+    termsSection1: {
+      title: '1. Acceptance of Terms',
+      content: 'By accessing and using this service, you accept and agree to be bound by the terms and conditions of this agreement.'
+    },
+    termsSection2: {
+      title: '2. Use License',
+      content: 'Permission is granted to temporarily access the materials (information or software) on our website for personal, non-commercial transitory viewing only.'
+    },
+    termsSection3: {
+      title: '3. Disclaimer',
+      content: 'The materials on our website are provided on an "as is" basis. We make no warranties, expressed or implied, and hereby disclaim and negate all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.'
+    },
+    privacyPolicyTitle: 'Privacy Policy',
+    privacyPolicyIntro: 'This Privacy Policy describes how we collect, use, and handle your personal information.',
+    privacySection1: {
+      title: '1. Information We Collect',
+      content: 'We collect information that you provide directly to us, including but not limited to your name, email address, and any other information you choose to provide.'
+    },
+    privacySection2: {
+      title: '2. How We Use Your Information',
+      content: 'We use the information we collect to operate, maintain, and provide you with the features and functionality of the service, to process your transactions, and to communicate with you.'
+    },
+    privacySection3: {
+      title: '3. Information Sharing',
+      content: 'We do not share your personal information with third parties except as described in this policy or with your consent.'
+    }
   }
 }
 

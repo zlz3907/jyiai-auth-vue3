@@ -14,9 +14,4 @@ declare module '@/stores/user' {
 
 declare module '@/api/user' {
   export const userApi: any
-}
-
-declare module 'bootstrap' {
-  export const Modal: any
-  export const Dropdown: any
 } 

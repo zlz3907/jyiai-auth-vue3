@@ -5,6 +5,7 @@ import type { UserConfig } from 'vite'
 import { fileURLToPath } from 'url'
 import { dirname, resolve } from 'path'
 import dts from 'vite-plugin-dts'
+import tailwindcss from '@tailwindcss/vite'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -13,9 +14,14 @@ const __dirname = dirname(__filename)
 export default defineConfig({
   plugins: [
     vue(),
+    tailwindcss(),
     dts({
       tsconfigPath: './tsconfig.json',
-      rollupTypes: true
+      rollupTypes: true,
+      // 生成类型声明文件
+      include: ['src/**/*.ts', 'src/**/*.vue'],
+      // 排除测试文件
+      exclude: ['src/**/*.test.ts', 'src/**/*.spec.ts']
     })
   ],
   resolve: {
@@ -49,11 +55,31 @@ export default defineConfig({
     }
   },
   css: {
+    modules: {
+      localsConvention: 'camelCase',
+      generateScopedName: '[name]__[local]___[hash:base64:5]'
+    },
     preprocessorOptions: {
-      scss: {
-        additionalData: `@use "@/assets/styles/variables" as *;`,
-        includePaths: ['src/assets/styles']
-      }
+      // 添加全局 CSS 作用域
+      additionalData: `
+        /* 创建一个完全隔离的样式作用域 */
+        .jyiai-auth {
+          all: initial;
+          display: block;
+          font-family: inherit;
+          line-height: 1.5;
+          box-sizing: border-box;
+          position: relative;
+          z-index: 1;
+        }
+        
+        /* 重置所有内部元素的样式 */
+        .jyiai-auth * {
+          all: revert;
+          font-family: inherit;
+          box-sizing: border-box;
+        }
+      `
     }
   },
   build: {
@@ -73,8 +99,8 @@ export default defineConfig({
         'vue-i18n',
         '@vuelidate/core',
         '@vuelidate/validators',
-        'bootstrap',
-        'bootstrap-vue-next'
+        'tailwindcss',
+        'daisyui'
       ],
       output: {
         exports: 'named',
@@ -83,10 +109,10 @@ export default defineConfig({
           'vue-router': 'VueRouter',
           pinia: 'Pinia',
           'vue-i18n': 'VueI18n',
-          bootstrap: 'Bootstrap',
           '@vuelidate/core': 'VuelidateCore',
           '@vuelidate/validators': 'VuelidateValidators',
-          'bootstrap-vue-next': 'BootstrapVueNext'
+          tailwindcss: 'TailwindCSS',
+          daisyui: 'DaisyUI'
         },
         chunkFileNames: 'chunks/[name]-[hash].js',
         assetFileNames: (assetInfo) => {

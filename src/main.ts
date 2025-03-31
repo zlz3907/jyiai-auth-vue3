@@ -5,9 +5,7 @@ import router from './router'
 import i18n from './locales'
 
 // 导入样式
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import './assets/styles/index.scss'
+import './assets/styles/index.css'
 
 const app: VueApp = createApp(App)
 

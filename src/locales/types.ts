@@ -18,6 +18,11 @@ export interface AuthMessages {
       passwordRequired: string
     }
     backToLogin: string
+    message: {
+      success: string
+      redirectingIn: string
+      error: string
+    }
   }
   login: {
     title: string
@@ -110,6 +115,38 @@ export interface AuthMessages {
     title: string
     subtitle: string
     backToLogin: string
+  }
+  terms: {
+    serviceTerms: string
+    privacyPolicy: string
+    serviceTermsTitle: string
+    serviceTermsIntro: string
+    termsSection1: {
+      title: string
+      content: string
+    }
+    termsSection2: {
+      title: string
+      content: string
+    }
+    termsSection3: {
+      title: string
+      content: string
+    }
+    privacyPolicyTitle: string
+    privacyPolicyIntro: string
+    privacySection1: {
+      title: string
+      content: string
+    }
+    privacySection2: {
+      title: string
+      content: string
+    }
+    privacySection3: {
+      title: string
+      content: string
+    }
   }
 }
 
