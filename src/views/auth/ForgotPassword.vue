@@ -295,11 +295,13 @@ const handleSubmit = async () => {
 <style scoped>
 /* 移除旧的 Bootstrap 样式 */
 .jyiai-form-control {
-  @apply jyiai-w-full;
+  width: 100%;
 }
 
 .jyiai-alert {
-  @apply jyiai-relative jyiai-flex jyiai-items-center;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 /* 添加过渡动画 */

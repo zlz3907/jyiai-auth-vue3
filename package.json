@@ -4,16 +4,16 @@
   "type": "module",
   "author": "ZHYCIT <service@zhycit.com> (https://zhycit.com)",
   "description": "A reusable authentication component for frontend projects",
-  "main": "./dist/jyiai-auth.umd.js",
-  "module": "./dist/jyiai-auth.es.js",
+  "main": "./dist/jyiai-auth.umd.cjs",
+  "module": "./dist/jyiai-auth.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/jyiai-auth.es.js",
-      "require": "./dist/jyiai-auth.umd.js"
+      "import": "./dist/jyiai-auth.js",
+      "require": "./dist/jyiai-auth.umd.cjs"
     },
-    "./style": "./dist/style.css"
+    "./style": "./dist/jyiai-auth.css"
   },
   "files": [
     "dist",
