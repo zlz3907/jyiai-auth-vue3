@@ -164,6 +164,7 @@ export default defineComponent({
 
         storage.setItem('token', res?.token) 
         storage.setItem('userInfo', res?.user)
+        storage.setItem('expiresAt', res?.expires_at)
         // userStore.setToken(res.token)
         // userStore.setUserInfo(res.user)
 
