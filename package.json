@@ -1,6 +1,6 @@
 {
   "name": "@aimetar/jyiai-auth-vue3",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "author": "ZHYCIT <service@zhycit.com> (https://zhycit.com)",
   "description": "A reusable authentication component for frontend projects",
