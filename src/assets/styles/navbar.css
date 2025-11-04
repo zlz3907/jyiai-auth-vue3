@@ -1,0 +1,151 @@
+/* navbar.css - 导航栏样式 */
+
+.jyiai-navbar {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: var(--jyiai-bg-light);
+  border-bottom: 1px solid var(--jyiai-border-light);
+  height: 4rem;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.jyiai-navbar-start {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
+
+.jyiai-navbar-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jyiai-navbar-end {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.jyiai-navbar-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  color: var(--jyiai-text-light);
+  text-decoration: none;
+  gap: 0.5rem;
+}
+
+.jyiai-navbar-item:hover {
+  color: var(--jyiai-primary);
+}
+
+.jyiai-navbar-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--jyiai-text-light);
+}
+
+.jyiai-navbar-logo {
+  height: 2.5rem;
+  width: auto;
+  display: flex;
+  align-items: center;
+}
+
+.jyiai-navbar-menu {
+  display: none;
+}
+
+.jyiai-navbar-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.jyiai-navbar-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.jyiai-navbar-sticky {
+  position: sticky;
+  top: 0;
+}
+
+.jyiai-navbar-transparent {
+  background-color: transparent;
+  border-bottom: none;
+}
+
+.jyiai-navbar-divider {
+  height: 1.5rem;
+  width: 1px;
+  background-color: var(--jyiai-border-light);
+  margin: 0 0.5rem;
+}
+
+/* 响应式导航栏 */
+@media (max-width: 768px) {
+  .jyiai-navbar-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--jyiai-bg-light);
+    border-bottom: 1px solid var(--jyiai-border-light);
+    padding: 0.5rem 0;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .jyiai-navbar-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .jyiai-navbar-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .jyiai-navbar-menu .jyiai-navbar-item {
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* 暗色模式 */
+[data-theme="dark"] .jyiai-navbar {
+  background-color: var(--jyiai-bg-dark);
+  border-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-navbar-item {
+  color: var(--jyiai-text-dark);
+}
+
+[data-theme="dark"] .jyiai-navbar-title {
+  color: var(--jyiai-text-dark);
+}
+
+[data-theme="dark"] .jyiai-navbar-divider {
+  background-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-navbar-menu {
+  background-color: var(--jyiai-bg-dark);
+  border-color: var(--jyiai-border-dark);
+}

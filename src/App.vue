@@ -90,16 +90,11 @@ provide('theme', {
 }
 
 /* 全局样式调整 */
-body {
-  background-color: hsl(var(--b2));
-  color: hsl(var(--bc));
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
 #app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 /* 确保图标和文本垂直居中对齐 */
@@ -110,7 +105,7 @@ body {
 
 /* 调整全局卡片样式 */
 .card {
-  background-color: hsl(var(--b1));
+  background-color: var(--jyiai-bg-light);
   border-radius: var(--rounded-box, 1rem);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
@@ -122,15 +117,15 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--b3));
+  background: var(--jyiai-hover-light);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--p));
+  background: var(--jyiai-primary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--pf));
+  background: var(--jyiai-primary-hover);
 }
 </style>

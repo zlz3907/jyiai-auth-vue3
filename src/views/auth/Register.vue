@@ -1,227 +1,176 @@
 <template>
-  <div class="w-full max-w-sm">
+  <div class=" jyiai-form jyiai-mx-auto jyiai-form-animate">
     <!-- Title -->
-    <h1 class="text-xl font-medium text-center mb-6">{{ t('auth.register.title') }}</h1>
-    <p class="text-sm text-center mb-6 text-base-content/60">{{ t('auth.register.welcome') }}</p>
+    <h1 class="jyiai-text-xl jyiai-font-medium jyiai-text-center jyiai-mb-6">{{ t('auth.register.title') }}</h1>
+    <p class="jyiai-text-sm jyiai-text-center jyiai-mb-6 jyiai-opacity-70">{{ t('auth.register.welcome') }}</p>
 
     <!-- Success Alert -->
-    <div v-if="success" class="alert alert-success mb-4 p-3">
-      <div class="flex items-center w-full">
-        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-4 w-4" fill="none" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <span class="text-sm flex-1">{{ t('auth.register.success.message') }}</span>
-        <span class="badge badge-primary badge-sm">{{ countdown }}s</span>
-      </div>
+    <div v-if="success" class="jyiai-alert jyiai-alert-success mb-4 p-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>{{ t('auth.register.success.message') }}</span>
+      <span class="jyiai-badge">{{ countdown }}s</span>
     </div>
 
     <!-- Error Alert -->
-    <div v-if="error" class="alert alert-error mb-4 p-3">
-      <div class="flex items-center w-full">
-        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-4 w-4" fill="none" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <span class="text-sm flex-1">{{ translateError(error) }}</span>
-        <button class="btn btn-ghost btn-xs p-0 min-h-0 h-4 w-4" @click="error = null">✕</button>
-      </div>
+    <div v-if="error" class="jyiai-alert jyiai-alert-error mb-4 p-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>{{ translateError(error) }}</span>
+      <button class="jyiai-btn jyiai-btn-ghost jyiai-btn-xs" @click="error = null">✕</button>
     </div>
 
     <form @submit.prevent="handleSubmit" class="space-y-4">
       <!-- Username Input -->
-      <div class="form-control w-full">
-        <label class="label pt-0">
-          <span class="label-text">{{ t('auth.register.form.username') }}</span>
+      <div class="jyiai-form-control">
+        <label class="jyiai-label">
+          {{ t('auth.register.form.username') }}
         </label>
         <input type="text" 
           :placeholder="t('auth.register.form.usernamePlaceholder')" 
-          class="input input-bordered w-full h-10"
-          :class="{ 'input-error': v$.username.$error }"
+          class="jyiai-input"
+          :class="{ 'jyiai-input-error': v$.username.$error }"
           v-model="form.username" 
           @blur="v$.username.$touch()" />
-        <label class="label py-0.5" v-if="v$.username.$error">
-          <span class="label-text-alt text-error text-xs">{{ v$.username.$errors[0].$message }}</span>
-        </label>
+        <div v-if="v$.username.$error" class="jyiai-error-text">
+          {{ v$.username.$errors[0].$message }}
+        </div>
       </div>
 
       <!-- Phone Input -->
-      <div class="form-control w-full">
-        <label class="label pt-0">
-          <span class="label-text">{{ t('auth.register.form.phone') }}</span>
+      <div class="jyiai-form-group">
+        <label class="jyiai-label">
+          {{ t('auth.register.form.phone') }}
         </label>
-        <input type="tel" 
-          :placeholder="t('auth.register.form.phonePlaceholder')" 
-          class="input input-bordered w-full h-10"
-          :class="{ 'input-error': v$.phone.$error }"
-          v-model="form.phone" 
-          @blur="v$.phone.$touch()" />
-        <label class="label py-0.5" v-if="v$.phone.$error">
-          <span class="label-text-alt text-error text-xs">{{ v$.phone.$errors[0].$message }}</span>
-        </label>
+        <div class="jyiai-input-group">
+          <!-- <div class="jyiai-input-addon">+86</div> -->
+          <input type="tel" 
+            :placeholder="t('auth.register.form.phonePlaceholder')" 
+            class="jyiai-input"
+            :class="{ 'jyiai-input-error': v$.phone.$error }"
+            v-model="form.phone"
+            @blur="v$.phone.$touch()" />
+        </div>
+        <div v-if="v$.phone.$error" class="jyiai-error-text">
+          {{ v$.phone.$errors[0].$message }}
+        </div>
       </div>
 
       <!-- Verification Code -->
-      <div class="form-control w-full">
-        <label class="label pt-0">
-          <span class="label-text">{{ t('auth.register.form.code') }}</span>
+      <div class="jyiai-form-control">
+        <label class="jyiai-label">
+          {{ t('auth.register.form.code') }}
         </label>
-        <div class="join w-full">
+        <div class="jyiai-join w-full">
           <input type="text" 
             :placeholder="t('auth.register.form.codePlaceholder')" 
-            class="input input-bordered join-item flex-1 h-10"
-            :class="{ 'input-error': v$.code.$error }"
+            class="jyiai-input jyiai-join-item flex-1"
+            :class="{ 'jyiai-input-error': v$.code.$error }"
             v-model="form.code"
             @blur="v$.code.$touch()" />
           <button type="button"
-            class="btn join-item h-10 min-h-0" 
-            :class="countdown > 0 ? 'btn-disabled' : 'btn-primary'"
+            class="jyiai-btn jyiai-join-item" 
+            :class="countdown > 0 ? 'jyiai-btn-disabled' : 'jyiai-btn-primary'"
             @click="handleSendCode"
             :disabled="!canSendCode">
             {{ countdown > 0 ? `${countdown}s` : t('auth.register.form.getCode') }}
           </button>
         </div>
-        <label class="label py-0.5" v-if="v$.code.$error">
-          <span class="label-text-alt text-error text-xs">{{ v$.code.$errors[0].$message }}</span>
-        </label>
+        <div v-if="v$.code.$error" class="jyiai-error-text">
+          {{ v$.code.$errors[0].$message }}
+        </div>
       </div>
 
       <!-- Password Input -->
-      <div class="form-control w-full">
-        <label class="label pt-0">
-          <span class="label-text">{{ t('auth.register.form.password') }}</span>
+      <div class="jyiai-form-group">
+        <label class="jyiai-label">
+          {{ t('auth.register.form.password') }}
         </label>
-        <div class="join w-full">
+        <div class="jyiai-input-group">
           <input :type="showPassword ? 'text' : 'password'" 
             :placeholder="t('auth.register.form.passwordPlaceholder')" 
-            class="input input-bordered join-item flex-1 h-10"
-            :class="{ 'input-error': v$.password.$error }"
+            class="jyiai-input"
+            :class="{ 'jyiai-input-error': v$.password.$error }"
             v-model="form.password"
             @blur="v$.password.$touch()" />
           <button type="button" 
-            class="btn join-item h-10 min-h-0 px-3" 
+            class="jyiai-input-addon" 
             @click="togglePassword"
             :aria-label="showPassword ? 'Hide password' : 'Show password'">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              class="h-4 w-4" 
-              :class="{ 'opacity-50': !showPassword }"
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor">
-              <path 
-                v-if="!showPassword"
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2" 
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path 
-                v-if="!showPassword"
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2"
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              <path
-                v-if="showPassword"
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2"
-                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-            </svg>
+            <div class="jyiai-password-toggle" :class="{ 'show': showPassword }"></div>
           </button>
         </div>
-        <label class="label py-0.5" v-if="v$.password.$error">
-          <span class="label-text-alt text-error text-xs">{{ v$.password.$errors[0].$message }}</span>
-        </label>
+        <div v-if="v$.password.$error" class="jyiai-error-text">
+          {{ v$.password.$errors[0].$message }}
+        </div>
         <!-- Password Strength -->
         <div class="mt-1" v-if="form.password">
-          <progress class="progress w-full h-1" :class="passwordStrengthBgClass" :value="passwordStrength" max="100"></progress>
+          <progress class="jyiai-progress w-full h-1" :class="passwordStrengthBgClass" :value="passwordStrength" max="100"></progress>
           <div class="mt-1">
-            <span class="text-xs text-base-content/60">{{ passwordStrengthText }}</span>
+            <span class="text-xs opacity-70">{{ passwordStrengthText }}</span>
           </div>
         </div>
       </div>
 
       <!-- Confirm Password -->
-      <div class="form-control w-full">
-        <label class="label pt-0">
-          <span class="label-text">{{ t('auth.register.form.confirmPassword') }}</span>
+      <div class="jyiai-form-group">
+        <label class="jyiai-label">
+          {{ t('auth.register.form.confirmPassword') }}
         </label>
-        <div class="join w-full">
+        <div class="jyiai-input-group">
           <input :type="showPassword ? 'text' : 'password'" 
             :placeholder="t('auth.register.form.confirmPasswordPlaceholder')" 
-            class="input input-bordered join-item flex-1 h-10"
-            :class="{ 'input-error': v$.confirmPassword.$error }"
+            class="jyiai-input"
+            :class="{ 'jyiai-input-error': v$.confirmPassword.$error }"
             v-model="form.confirmPassword"
             @blur="v$.confirmPassword.$touch()" />
           <button type="button" 
-            class="btn join-item h-10 min-h-0 px-3" 
+            class="jyiai-input-addon" 
             @click="togglePassword"
             :aria-label="showPassword ? 'Hide password' : 'Show password'">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              class="h-4 w-4" 
-              :class="{ 'opacity-50': !showPassword }"
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor">
-              <path 
-                v-if="!showPassword"
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2" 
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path 
-                v-if="!showPassword"
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2"
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              <path
-                v-if="showPassword"
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2"
-                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-            </svg>
+            <div class="jyiai-password-toggle" :class="{ 'show': showPassword }"></div>
           </button>
         </div>
-        <label class="label py-0.5" v-if="v$.confirmPassword.$error">
-          <span class="label-text-alt text-error text-xs">{{ v$.confirmPassword.$errors[0].$message }}</span>
-        </label>
+        <div v-if="v$.confirmPassword.$error" class="jyiai-error-text">
+          {{ v$.confirmPassword.$errors[0].$message }}
+        </div>
       </div>
 
       <!-- Agreement -->
-      <div class="form-control w-full">
-        <label class="label cursor-pointer justify-start gap-2">
+      <div class="jyiai-form-control">
+        <div class="jyiai-flex jyiai-items-center jyiai-justify-start">
           <input type="checkbox" 
-            class="checkbox checkbox-primary checkbox-sm" 
+            class="jyiai-checkbox jyiai-checkbox-primary jyiai-checkbox" 
             v-model="form.agreement" 
             @blur="v$.agreement.$touch()" />
-          <span class="label-text">
+          <label class="jyiai-label-text">
             {{ t('auth.register.form.agreement') }}
-            <a class="link link-primary" @click.prevent="showTerms">
+            <a class="jyiai-link jyiai-link-primary" @click.prevent="showTerms">
               {{ t('auth.register.form.terms') }}
             </a>
-          </span>
-        </label>
-        <label class="label py-0.5" v-if="v$.agreement.$error">
-          <span class="label-text-alt text-error text-xs">{{ v$.agreement.$errors[0].$message }}</span>
+          </label>
+        </div>
+        <label class="jyiai-label py-0.5" v-if="v$.agreement.$error">
+          <span class="jyiai-label-text-alt jyiai-text-error jyiai-text-xs">{{ v$.agreement.$errors[0].$message }}</span>
         </label>
       </div>
 
       <!-- Submit Button -->
       <div class="w-full">
         <button type="submit" 
-          class="btn btn-primary w-full h-10 min-h-0" 
+          class="jyiai-btn jyiai-btn-primary jyiai-w-full" 
           :disabled="!canSubmit || loading">
-          <span v-if="loading" class="loading loading-spinner loading-xs"></span>
+          <span v-if="loading" class="jyiai-loading jyiai-loading-spinner jyiai-loading-xs"></span>
           {{ loading ? t('common.system.loading') : t('auth.register.form.register') }}
         </button>
       </div>
 
       <!-- Login Link -->
-      <div class="text-center text-sm mt-4">
+      <div class="jyiai-flex jyiai-items-center jyiai-justify-center jyiai-text-sm jyiai-mt-4">
         {{ t('auth.register.form.hasAccount') }}
-        <router-link to="/auth/login" class="link link-primary">
+        <router-link to="/auth/login" class="jyiai-link jyiai-link-primary">
           {{ t('auth.register.form.login') }}
         </router-link>
       </div>

@@ -1,0 +1,505 @@
+/* base.css - 基础样式文件，不依赖任何UI框架 */
+
+/* 全局样式重置 */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--jyiai-bg-light);
+  color: var(--jyiai-text-light);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow: hidden;
+}
+
+:root {
+  --jyiai-primary: #4f46e5;
+  --jyiai-primary-hover: #4338ca;
+  --jyiai-primary-focus: #4f46e5;
+  --jyiai-primary-content: #ffffff;
+  
+  --jyiai-bg-light: #ffffff;
+  --jyiai-bg-dark: #1f2937;
+  
+  --jyiai-text-light: #333333;
+  --jyiai-text-dark: #e5e7eb;
+  
+  --jyiai-border-light: #e5e7eb;
+  --jyiai-border-dark: #374151;
+  
+  --jyiai-hover-light: #f3f4f6;
+  --jyiai-hover-dark: #374151;
+  
+  --jyiai-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --jyiai-radius: 0.375rem;
+  --jyiai-transition: all 0.2s ease;
+  
+  /* 文本颜色变量 */
+  --jyiai-success: #10b981;
+  --jyiai-error: #ef4444;
+}
+
+/* 响应式布局辅助类 */
+@media (min-width: 768px) {
+  .jyiai-md-flex {
+    display: flex;
+  }
+  
+  .jyiai-md-hidden {
+      display: none;
+   }
+}
+
+@media (min-width: 1024px) {
+  .jyiai-lg-flex {
+    display: flex;
+  }
+  
+  .jyiai-lg-block {
+    display: block;
+  }
+  
+  .jyiai-lg-hidden {
+    display: none;
+  }
+}
+
+/* 加载动画 */
+.jyiai-loading {
+  display: inline-block;
+  position: relative;
+}
+
+.jyiai-loading-spinner {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 2px solid white;
+  animation: spin 1s linear infinite;
+}
+
+.jyiai-loading-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+.jyiai-loading-xs {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 过渡动画 */
+.jyiai-fade-enter-active,
+.jyiai-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.jyiai-fade-enter-from,
+.jyiai-fade-leave-to {
+  opacity: 0;
+}
+
+.jyiai-slide-enter-active,
+.jyiai-slide-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.jyiai-slide-enter-from,
+.jyiai-slide-leave-to {
+  transform: translateY(-20px);
+}
+
+/* 边框样式 */
+.jyiai-border-b {
+  border-bottom: 1px solid var(--jyiai-border-light);
+}
+
+.jyiai-border-t {
+  border-top: 1px solid var(--jyiai-border-light);
+}
+
+/* 全局样式重置与隔离 */
+.jyiai-auth {
+  all: initial;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--jyiai-text-light);
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.jyiai-form {
+  width: 25rem;
+}
+
+.jyiai-auth * {
+  /* all: revert; */
+  box-sizing: border-box;
+}
+
+/* 基础布局类 */
+.jyiai-flex {
+  display: flex;
+}
+
+.jyiai-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.jyiai-flex-1 {
+  flex: 1 1 0%;
+}
+
+.jyiai-overflow-y-auto {
+  overflow-y: auto;
+}
+
+.jyiai-items-center {
+  align-items: center;
+}
+
+.jyiai-justify-center {
+  justify-content: center;
+}
+
+.jyiai-justify-between {
+  justify-content: space-between;
+}
+
+.jyiai-justify-start {
+  justify-content: flex-start;
+}
+
+.jyiai-justify-end {
+  justify-content: flex-end;
+}
+
+.jyiai-gap-1 {
+  gap: 0.25rem;
+}
+
+.jyiai-gap-2 {
+  gap: 0.5rem;
+}
+
+/* 宽度和高度 */
+.jyiai-w-full {
+  width: 100%;
+}
+
+.jyiai-h-full {
+  height: 100%;
+}
+
+.jyiai-h-10 {
+  height: 2.5rem;
+}
+
+.jyiai-h-14 {
+  height: 3.5rem;
+}
+
+.jyiai-h-16 {
+  height: 4rem;
+}
+
+.jyiai-h-1 {
+  height: 0.25rem;
+}
+
+.jyiai-w-16 {
+  width: 4rem;
+}
+
+/* 最大宽度 */
+.jyiai-max-w-sm {
+  max-width: 24rem;
+}
+
+.jyiai-max-w-3xl {
+  max-width: 48rem;
+}
+
+.jyiai-max-w-none {
+  max-width: none;
+}
+
+.jyiai-max-w-96 {
+  max-width: 24rem;
+}
+
+/* 边距 */
+.jyiai-mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.jyiai-mt-0 {
+  margin-top: 0 !important;
+}
+
+.jyiai-mr-2 {
+  margin-right: 0.5rem;
+}
+
+.jyiai-mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.jyiai-mb-4 {
+  margin-bottom: 1rem;
+}
+
+.jyiai-mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.jyiai-mt-2 {
+  margin-top: 0.5rem;
+}
+
+.jyiai-mt-4 {
+  margin-top: 1rem;
+}
+
+.jyiai-ml-2 {
+  margin-left: 0.5rem;
+}
+
+.jyiai-px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.jyiai-py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* 间距 */
+.jyiai-space-y-2 > * + * {
+  margin-top: 0.5rem;
+}
+
+.jyiai-space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.jyiai-space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.jyiai-hidden {
+  display: none;
+}
+
+/* 文本样式 */
+.jyiai-text-center {
+  text-align: center;
+}
+
+.jyiai-text-xs {
+  font-size: 0.75rem;
+}
+
+.jyiai-text-sm {
+  font-size: 0.875rem;
+}
+
+.jyiai-text-lg {
+  font-size: 1.125rem;
+}
+
+.jyiai-text-xl {
+  font-size: 1.25rem;
+}
+
+.jyiai-text-title {
+  font-size: 1.5rem;
+}
+
+.jyiai-text-subtitle {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.jyiai-font-medium {
+  font-weight: 500;
+}
+
+.jyiai-font-bold {
+  font-weight: 700;
+}
+
+.jyiai-text-success {
+  color: var(--jyiai-success);
+}
+
+.jyiai-text-error {
+  color: var(--jyiai-error);
+}
+
+.jyiai-opacity-70 {
+  opacity: 0.7;
+}
+
+/* 图标样式 */
+.jyiai-icon {
+  height: 1rem;
+  width: 1rem;
+  display: inline-block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 卡片样式 */
+.jyiai-card {
+  background-color: var(--jyiai-bg-light);
+  border-radius: var(--jyiai-radius);
+  box-shadow: var(--jyiai-shadow);
+  padding: 1.5rem;
+  transition: var(--jyiai-transition);
+}
+
+.jyiai-card-body {
+  padding: 1rem;
+}
+
+/* 阴影 */
+.jyiai-shadow {
+  box-shadow: var(--jyiai-shadow);
+}
+
+/* 徽章 */
+.jyiai-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  color: #ffffff;
+  background-color: var(--jyiai-primary);
+  border-radius: 9999px;
+}
+
+/* 进度条 */
+.jyiai-progress {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 0.5rem;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.jyiai-progress::-webkit-progress-bar {
+  background-color: var(--jyiai-border-light);
+}
+
+.jyiai-progress::-webkit-progress-value {
+  background-color: var(--jyiai-primary);
+}
+
+/* 链接样式 */
+.jyiai-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.jyiai-link-primary {
+  color: var(--jyiai-primary);
+}
+
+.jyiai-link-primary:hover {
+  text-decoration: underline;
+}
+
+/* 二维码容器 */
+.jyiai-qrcode {
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.jyiai-main-scroll {
+  -webkit-overflow-scrolling: touch;
+  min-height: 0;
+}
+
+/* 暗色模式 */
+/* 暗色模式样式 */
+[data-theme="dark"] {
+  color: var(--jyiai-text-dark);
+  background-color: var(--jyiai-bg-dark);
+}
+
+[data-theme="dark"] .jyiai-border-b {
+  border-bottom-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-border-t {
+  border-top-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-auth {
+  color: var(--jyiai-text-dark);
+  background-color: var(--jyiai-bg-dark);
+}
+
+[data-theme="dark"] .jyiai-card {
+  background-color: var(--jyiai-bg-dark);
+  border-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-divider {
+  background-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-progress::-webkit-progress-bar {
+  background-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-link {
+  color: var(--jyiai-primary);
+}
+
+[data-theme="dark"] .jyiai-text-success {
+  color: var(--jyiai-success);
+}
+
+[data-theme="dark"] .jyiai-text-error {
+  color: var(--jyiai-error);
+}
+
+/* 暗色模式样式 */
+[data-theme="dark"] .jyiai-input {
+  color: var(--jyiai-text-dark);
+  background-color: var(--jyiai-bg-dark);
+  border-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-input-addon {
+  color: var(--jyiai-text-dark);
+  background-color: var(--jyiai-bg-dark);
+  border-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-password-toggle::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 12a3 3 0 11-6 0 3 3 0 016 0z' /%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z' /%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] .jyiai-password-toggle.show::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21' /%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] .jyiai-icon {
+  stroke: white;
+}

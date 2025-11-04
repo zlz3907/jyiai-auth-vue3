@@ -1,0 +1,310 @@
+/* 按钮基础样式 */
+.jyiai-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  border-radius: var(--jyiai-radius);
+  transition: var(--jyiai-transition);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  gap: 0.5rem;
+}
+
+.jyiai-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+}
+
+.jyiai-btn:disabled,
+.jyiai-btn-disabled {
+  opacity: 0.65;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* 按钮尺寸变体 */
+.jyiai-btn-xs {
+  padding: 0.125rem 0.375rem;
+  font-size: 0.75rem;
+  height: 1.5rem;
+  min-height: 1.5rem;
+}
+
+.jyiai-btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  height: 2rem;
+  min-height: 2rem;
+}
+
+.jyiai-btn-circle {
+  border-radius: 9999px;
+  padding: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+/* 按钮颜色变体 */
+.jyiai-btn-primary {
+  background-color: var(--jyiai-primary);
+  color: var(--jyiai-primary-content);
+  border-color: var(--jyiai-primary);
+}
+
+.jyiai-btn-primary:hover {
+  background-color: var(--jyiai-primary-hover);
+  border-color: var(--jyiai-primary-hover);
+}
+
+.jyiai-btn-secondary {
+  background-color: #6b7280;
+  color: #ffffff;
+  border-color: #6b7280;
+}
+
+.jyiai-btn-secondary:hover {
+  background-color: #4b5563;
+  border-color: #4b5563;
+}
+
+.jyiai-btn-accent {
+  background-color: #f97316;
+  color: #ffffff;
+  border-color: #f97316;
+}
+
+.jyiai-btn-accent:hover {
+  background-color: #ea580c;
+  border-color: #ea580c;
+}
+
+.jyiai-btn-neutral {
+  background-color: #f3f4f6;
+  color: #1f2937;
+  border-color: #d1d5db;
+}
+
+.jyiai-btn-neutral:hover {
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+.jyiai-btn-info {
+  background-color: #0ea5e9;
+  color: #ffffff;
+  border-color: #0ea5e9;
+}
+
+.jyiai-btn-info:hover {
+  background-color: #0284c7;
+  border-color: #0284c7;
+}
+
+.jyiai-btn-success {
+  background-color: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
+}
+
+.jyiai-btn-success:hover {
+  background-color: #059669;
+  border-color: #059669;
+}
+
+.jyiai-btn-warning {
+  background-color: #f59e0b;
+  color: #ffffff;
+  border-color: #f59e0b;
+}
+
+.jyiai-btn-warning:hover {
+  background-color: #d97706;
+  border-color: #d97706;
+}
+
+.jyiai-btn-error {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+}
+
+.jyiai-btn-error:hover {
+  background-color: #dc2626;
+  border-color: #dc2626;
+}
+
+/* 按钮轮廓变体 */
+.jyiai-btn-outline {
+  background-color: transparent;
+}
+
+.jyiai-btn-outline-primary {
+  color: var(--jyiai-primary);
+  border-color: var(--jyiai-primary);
+}
+
+.jyiai-btn-outline-primary:hover {
+  background-color: var(--jyiai-primary);
+  color: var(--jyiai-primary-content);
+}
+
+.jyiai-btn-outline-secondary {
+  color: #6b7280;
+  border-color: #6b7280;
+}
+
+.jyiai-btn-outline-secondary:hover {
+  background-color: #6b7280;
+  color: #ffffff;
+}
+
+.jyiai-btn-outline-accent {
+  color: #f97316;
+  border-color: #f97316;
+}
+
+.jyiai-btn-outline-accent:hover {
+  background-color: #f97316;
+  color: #ffffff;
+}
+
+/* 幽灵按钮 */
+.jyiai-btn-ghost {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.jyiai-btn-ghost-primary {
+  color: var(--jyiai-primary);
+}
+
+/* 特殊按钮样式 */
+.jyiai-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.jyiai-back-text {
+  font-size: 0.875rem;
+}
+
+.jyiai-logo-btn {
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.jyiai-btn-ghost-primary:hover {
+  background-color: rgba(79, 70, 229, 0.1);
+}
+
+.jyiai-btn-ghost-secondary {
+  color: #6b7280;
+}
+
+.jyiai-btn-ghost-secondary:hover {
+  background-color: rgba(107, 114, 128, 0.1);
+}
+
+/* 按钮尺寸变体 */
+.jyiai-btn-xs {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.jyiai-btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.jyiai-btn-md {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.jyiai-btn-lg {
+  padding: 0.625rem 1.25rem;
+  font-size: 1rem;
+}
+
+.jyiai-btn-xl {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.125rem;
+}
+
+/* 块级按钮 */
+.jyiai-btn-block {
+  display: flex;
+  width: 100%;
+}
+
+/* 按钮组 */
+.jyiai-btn-group {
+  display: inline-flex;
+  position: relative;
+}
+
+.jyiai-btn-group .jyiai-btn {
+  position: relative;
+  flex: 1 1 auto;
+}
+
+.jyiai-btn-group .jyiai-btn:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: -1px;
+}
+
+.jyiai-btn-group .jyiai-btn:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* 加载状态 */
+.jyiai-btn-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.jyiai-btn-loading:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1rem;
+  height: 1rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-right-color: transparent;
+  animation: jyiai-spin 0.75s linear infinite;
+}
+
+.jyiai-btn-loading .jyiai-btn-text {
+  visibility: hidden;
+}
+
+@keyframes jyiai-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+[data-theme="dark"] .jyiai-btn-outline {
+  color: var(--jyiai-text-dark);
+}

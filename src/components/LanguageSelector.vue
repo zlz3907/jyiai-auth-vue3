@@ -1,19 +1,19 @@
 <template>
-  <div class="dropdown dropdown-end">
-    <div tabindex="0" role="button" class="btn btn-ghost btn-sm h-9 px-2">
-      <div class="w-4 h-4 flex items-center justify-center">
-        <span class="text-base leading-none">{{ currentLanguage?.flag }}</span>
+  <div class="jyiai-dropdown">
+    <div tabindex="0" role="button" class="jyiai-btn jyiai-btn-ghost jyiai-btn-sm jyiai-lang-btn">
+      <div class="jyiai-flex jyiai-items-center jyiai-justify-center jyiai-lang-flag">
+        <span>{{ currentLanguage?.flag }}</span>
       </div>
     </div>
-    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-2">
-      <li v-for="lang in availableLanguages" :key="lang.code">
+    <ul tabindex="0" class="jyiai-dropdown-content jyiai-menu">
+      <li v-for="lang in availableLanguages" :key="lang.code" class="jyiai-menu-item">
         <button
           @click="changeLanguage(lang)"
-          :class="{ 'active': lang.code === locale }"
-          class="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-base-200 transition-colors"
+          :class="{ 'jyiai-active': lang.code === locale }"
+          class="jyiai-menu-item-btn"
         >
-          <span class="text-base leading-none">{{ lang.flag }}</span>
-          <span class="text-sm">{{ lang.name }}</span>
+          <span class="jyiai-lang-flag">{{ lang.flag }}</span>
+          <span class="jyiai-lang-name">{{ lang.name }}</span>
         </button>
       </li>
     </ul>
@@ -38,13 +38,5 @@ const changeLanguage = (lang: Language) => {
 </script>
 
 <style scoped>
-.active {
-  background-color: rgb(243 244 246);
-}
-
-@media (prefers-color-scheme: dark) {
-  .active {
-    background-color: rgb(55 65 81);
-  }
-}
-</style> 
+/* 样式已移至base.css */
+</style>

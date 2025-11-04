@@ -1,110 +1,91 @@
 <template>
-  <div class="w-full max-w-sm">
+  <div class="jyiai-form-animate jyiai-form jyiai-mx-auto">
     <!-- Title -->
-    <h1 class="text-xl font-medium text-center mb-6">{{ t('auth.login.title') }}</h1>
+    <h1 class="jyiai-text-xl jyiai-font-medium jyiai-text-center jyiai-mb-6">{{ t('auth.login.title') }}</h1>
 
     <!-- Error Alert -->
-    <div v-if="error" class="alert alert-error alert-sm mb-4">
-      <i class="bi bi-exclamation-circle text-sm"></i>
-      <span class="text-sm">{{ error }}</span>
-      <button class="btn btn-ghost btn-xs" @click="error = null">✕</button>
+    <div v-if="error" class="jyiai-alert jyiai-alert-error mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="jyiai-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>{{ error }}</span>
+      <button class="jyiai-btn jyiai-btn-ghost jyiai-btn-xs" @click="error = null">✕</button>
     </div>
 
-    <form @submit.prevent="handleSubmit" class="space-y-4">
+    <form @submit.prevent="handleSubmit" class="jyiai-space-y-4">
       <!-- Phone Input -->
-      <div class="form-control">
-        <label class="label pt-0">
-          <span class="label-text">{{ t('auth.login.form.phone') }}</span>
+      <div class="jyiai-form-group">
+        <label class="jyiai-label">
+          {{ t('auth.login.form.phone') }}
         </label>
-        <input type="tel" 
-          :placeholder="t('auth.login.form.phonePlaceholder')" 
-          class="input input-bordered w-full h-10"
-          :class="{ 'input-error': v$.phone.$error }"
-          v-model="form.phone" 
-          @blur="v$.phone.$touch()" />
-        <label class="label py-0.5" v-if="v$.phone.$error">
-          <span class="label-text-alt text-error text-xs">{{ v$.phone.$errors[0].$message }}</span>
-        </label>
+        <div class="jyiai-input-group">
+          <input type="tel" 
+            :placeholder="t('auth.login.form.phonePlaceholder')" 
+            class="jyiai-input jyiai-input-primary"
+            :class="{ 'jyiai-input-error': v$.phone.$error }"
+            v-model="form.phone"
+            @blur="v$.phone.$touch()" />
+        </div>
+        <div v-if="v$.phone.$error" class="jyiai-error-text">
+          {{ v$.phone.$errors[0].$message }}
+        </div>
       </div>
       
       <!-- Password Input -->
-      <div class="form-control">
-        <label class="label pt-0 flex justify-between">
-          <span class="label-text">{{ t('auth.login.form.password') }}</span>
-          <router-link to="/auth/forgot-password" class="link link-primary text-xs">
+      <div class="jyiai-form-group">
+        <div class="jyiai-flex jyiai-justify-between jyiai-items-center">
+          <label class="jyiai-label">
+            {{ t('auth.login.form.password') }}
+          </label>
+          <router-link to="/auth/forgot-password" class="jyiai-link jyiai-link-primary jyiai-text-xs jyiai-mb-2">
             {{ t('auth.login.form.forgot') }}
           </router-link>
-        </label>
-        <div class="join w-full">
+        </div>
+        <div class="jyiai-input-group">
           <input :type="showPassword ? 'text' : 'password'" 
             :placeholder="t('auth.login.form.passwordPlaceholder')" 
-            class="input input-bordered join-item flex-1 h-10"
-            :class="{ 'input-error': v$.password.$error }"
-            v-model="form.password" 
+            class="jyiai-input jyiai-input-secondary"
+            :class="{ 'jyiai-input-error': v$.password.$error }"
+            v-model="form.password"
             @blur="v$.password.$touch()" />
           <button type="button" 
-            class="btn join-item h-10 min-h-0 px-3" 
+            class="jyiai-input-addon" 
             @click="togglePassword"
             :aria-label="showPassword ? 'Hide password' : 'Show password'">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              class="h-4 w-4" 
-              :class="{ 'opacity-50': !showPassword }"
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor">
-              <path 
-                v-if="!showPassword"
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2" 
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path 
-                v-if="!showPassword"
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2"
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              <path
-                v-if="showPassword"
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2"
-                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-            </svg>
+            <div class="jyiai-password-toggle" :class="{ 'show': showPassword }"></div>
           </button>
         </div>
-        <label class="label py-0.5" v-if="v$.password.$error">
-          <span class="label-text-alt text-error text-xs">{{ v$.password.$errors[0].$message }}</span>
-        </label>
+        <div v-if="v$.password.$error" class="jyiai-error-text">
+          {{ v$.password.$errors[0].$message }}
+        </div>
       </div>
       
       <!-- Remember Me -->
-      <div class="form-control">
-        <label class="label cursor-pointer justify-start gap-2 py-0">
-          <input type="checkbox" class="checkbox checkbox-xs" v-model="form.remember" />
-          <span class="label-text text-sm">{{ t('auth.login.form.remember') }}</span>
+      <div class="jyiai-flex jyiai-items-center jyiai-justify-start jyiai-mb-4">
+        <input type="checkbox" class="jyiai-checkbox" v-model="form.remember" id="remember-me" />
+        <label for="remember-me" class="jyiai-label-text jyiai-cursor-pointer">
+          {{ t('auth.login.form.remember') }}
         </label>
       </div>
       
       <!-- Login Button -->
-      <button type="submit" class="btn btn-primary w-full h-10 min-h-0" :disabled="v$.$invalid || loading">
-        <span v-if="loading" class="loading loading-spinner loading-xs"></span>
+      <button type="submit" class="jyiai-btn jyiai-btn-primary jyiai-w-full" :disabled="v$.$invalid || loading">
+        <span v-if="loading" class="jyiai-loading jyiai-loading-spinner jyiai-loading-sm jyiai-mr-2"></span>
         {{ loading ? t('common.system.loading') : t('auth.login.form.login') }}
       </button>
 
       <!-- Register Link -->
-      <div class="text-center text-sm">
+      <div class="jyiai-flex jyiai-items-center jyiai-justify-center jyiai-text-sm jyiai-mt-4">
         {{ t('auth.login.noAccount') }}
-        <router-link to="/auth/register" class="link link-primary">
+        <router-link to="/auth/register" class="jyiai-mt-0 jyiai-form-link">
           {{ t('auth.login.register') }}
         </router-link>
       </div>
       
       <!-- WeChat Login -->
       <template v-if="showWechatLogin">
-        <div class="divider text-xs">{{ t('auth.register.form.or') }}</div>
-        <button type="button" class="btn btn-ghost btn-circle mx-auto" @click="router.push('/auth/wx-auth')">
+        <div class="jyiai-form-divider">{{ t('auth.register.form.or') }}</div>
+        <button type="button" class="jyiai-btn jyiai-btn-ghost jyiai-btn-circle mx-auto" @click="router.push('/auth/wx-auth')">
           <img src="https://api.zhycit.com/alioss2/icons/tubiaopng/wx_online.png" 
                alt="WeChat" width="20" height="20">
         </button>

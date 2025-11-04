@@ -1,6 +1,10 @@
-@import "tailwindcss";
-@plugin "daisyui";
-
-.jyiai-auth {
-  background-color: hsl(var(--b1));
-}
+/* 导入基础样式 */
+@import url('./base.css');
+/* 导入组件样式 */
+@import url('./input.css');
+@import url('./input-group.css');
+@import url('./button.css');
+@import url('./navbar.css');
+@import url('./dropdown.css');
+@import url('./form.css');
+@import url('./theme-toggle.css');

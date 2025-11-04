@@ -50,4 +50,4 @@ const routes: AuthRouteConfig = [
   }
 ]
 
-export default routes 
+export default routes

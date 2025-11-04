@@ -1,8 +1,8 @@
 <template>
-  <div class="jyiai-auth min-h-screen flex flex-col bg-base-100">
+  <div class="jyiai-auth jyiai-flex-col" style="height: 100vh;">
     <!-- Header -->
     <Navbar
-      v-if="showHeader"
+      v-if="resolvedShowHeader"
       mode="auth"
       :with-shadow="true"
       :with-border="false"
@@ -14,13 +14,13 @@
     </Navbar>
 
     <!-- Main Content -->
-    <main class="flex-1 flex items-center justify-center py-auto px-4">
+    <main class="jyiai-flex-1 jyiai-flex jyiai-items-center jyiai-justify-center jyiai-px-4 jyiai-overflow-y-auto jyiai-main-scroll">
       <router-view></router-view>
     </main>
 
     <!-- Footer -->
-    <footer v-if="showFooter" class="shadow border-t border-base-200">
-      <div class="container mx-auto px-4 h-14 flex items-center justify-center">
+    <footer v-if="resolvedShowFooter" class="jyiai-shadow jyiai-border-t">
+      <div class="jyiai-w-full jyiai-px-4 jyiai-h-14 jyiai-flex jyiai-items-center jyiai-justify-center">
         <slot name="footer"></slot>
       </div>
     </footer>
@@ -28,12 +28,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, getCurrentInstance, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Navbar from '@/components/Navbar.vue'
 
+// const { proxy } = getCurrentInstance()!
 // Props
-defineProps({
+const props = defineProps({
   showHeader: {
     type: Boolean,
     default: true
@@ -50,12 +51,21 @@ const route = useRoute()
 // State
 const backUrl = ref<string | undefined>(undefined)
 
+// 读取插件注入的全局配置（$JAC）并优先覆盖本地 props
+const { proxy } = getCurrentInstance()!
+
+
+// 解析最终显隐：若 $JAC 提供值则使用，否则回退到 props
+const resolvedShowHeader = computed(() => (	proxy?.$JAC?.showHeader ?? props.showHeader))
+const resolvedShowFooter = computed(() => (	proxy?.$JAC?.showFooter ?? props.showFooter))
+
 // Lifecycle
 onMounted(() => {
   const urlBackParam = route.query.backUrl
   if (urlBackParam && typeof urlBackParam === 'string') {
     backUrl.value = urlBackParam
   }
+  // this.showHeader = 
 })
 
 // Methods
@@ -65,9 +75,3 @@ const handleBack = () => {
   }
 }
 </script>
-
-<style>
-.jyiai-auth {
-  background-color: hsl(var(--b1));
-}
-</style>

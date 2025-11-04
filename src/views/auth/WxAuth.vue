@@ -1,14 +1,14 @@
 <template>
-  <div class="bg-base-100 rounded-box">
-    <div class="card-body p-4">
+  <div class="jyiai-card">
+<div class="jyiai-card-body">
       <!-- Title -->
       <div class="text-center mb-4">
-        <h1 class="text-3xl font-bold mt-2">{{ t('auth.wxAuth.title') }}</h1>
-        <p class="text-lg text-base-content/70 mb-4">{{ t('auth.wxAuth.subtitle') }}</p>
-      </div>
+<h1 class="jyiai-text-title jyiai-font-bold mt-2">{{ t('auth.wxAuth.title') }}</h1>
+<p class="jyiai-text-subtitle mb-4">{{ t('auth.wxAuth.subtitle') }}</p>
+</div>
 
-      <!-- QR Code -->
-      <div v-if="!isMobile" class="gpt-qrcode flex justify-center">
+<!-- QR Code -->
+<div v-if="!isMobile" class="jyiai-qrcode jyiai-flex jyiai-justify-center">
         <iframe 
           id="wxIframe" 
           height="450px" 
@@ -18,8 +18,8 @@
       </div>
 
       <!-- Back to login -->
-      <div class="text-center mt-4">
-        <router-link to="/auth/login" class="link link-primary text-sm">
+      <div class="jyiai-text-center mt-4">
+<router-link to="/auth/login" class="jyiai-link jyiai-link-primary jyiai-text-sm">
           {{ t('auth.wxAuth.backToLogin') }}
         </router-link>
       </div>
@@ -122,7 +122,7 @@ export default defineComponent({
   padding: 0.5rem;
   height: 7rem;
   bottom: 0;
-  background: hsl(var(--b2)) url("https://zhycit-static.oss-cn-beijing.aliyuncs.com/aimetaa/aimetaa.svg") no-repeat bottom;
+  background: var(--jyiai-bg-light) url("https://zhycit-static.oss-cn-beijing.aliyuncs.com/aimetaa/aimetaa.svg") no-repeat bottom;
   background-size: 9rem !important;
   background-position-y: 3rem !important;
 }
@@ -130,7 +130,7 @@ export default defineComponent({
 [data-theme="dark"] {
   .gpt-qrcode {
     &:before {
-      background: hsl(var(--b2)) url("https://zhycit-static.oss-cn-beijing.aliyuncs.com/aimetaa/aimetaa-light.svg") no-repeat bottom;
+      background: var(--jyiai-bg-dark) url("https://zhycit-static.oss-cn-beijing.aliyuncs.com/aimetaa/aimetaa-light.svg") no-repeat bottom;
     }
   }
 }

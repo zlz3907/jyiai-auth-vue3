@@ -6,7 +6,7 @@ import AuthLayout from './layouts/AuthLayout.vue'
 import routes from './router/routes'
 // 导入样式
 
-import './assets/styles/index.css'
+// 默认样式由宿主应用决定导入；如需从插件控制，请通过 options.stylesUrl 注入
 
 // 导出路由配置和组件
 export { routes, AuthLayout }
@@ -27,6 +27,8 @@ export interface AuthOptions {
   authKey?: string  // 添加 authKey 配置
   showHeader?: boolean
   showFooter?: boolean
+  stylesUrl?: string    // 可选：通过 URL 注入自定义样式
+  injectStyles?: boolean // 可选：是否由插件注入样式，默认 true
   thirdAuth?: string[]  // 第三方认证方式列表
 }
 
@@ -55,5 +57,24 @@ export default {
 
     // 注入全局配置
     app.config.globalProperties.$JAC = options // 将配置注入到全局 JYIAIAuthConfig(JAC)
+
+    // 样式注入策略：
+    // - 若提供 options.stylesUrl，则通过 <link> 注入该样式
+    // - 若未提供，则默认不注入，交由宿主应用控制（避免重复导入）
+    const shouldInject = options.injectStyles !== false
+    if (shouldInject) {
+      if (options.stylesUrl) {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = options.stylesUrl
+        document.head.appendChild(link)
+      } else {
+        // 回退：未提供 stylesUrl 时动态导入默认样式
+        // 通过条件动态导入，避免在未使用插件样式时重复加载
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        import('./assets/styles/index.css')
+      }
+    }
   }
-} 
+}

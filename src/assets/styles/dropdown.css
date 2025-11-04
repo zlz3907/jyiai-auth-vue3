@@ -1,0 +1,263 @@
+/* dropdown.css - 下拉菜单样式 */
+
+.jyiai-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* 原始下拉菜单实现 */
+.jyiai-dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--jyiai-bg-light);
+  border-radius: var(--jyiai-radius);
+  box-shadow: var(--jyiai-shadow);
+  z-index: 50;
+  min-width: 13rem;
+  border: 1px solid var(--jyiai-border-light);
+  animation: jyiai-dropdown-in 0.2s ease-out;
+  transform-origin: top right;
+}
+
+/* 下拉列表ul和li样式美化 */
+.jyiai-dropdown-content ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.jyiai-dropdown-content li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.jyiai-dropdown-content li a,
+.jyiai-dropdown-content li button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  text-decoration: none;
+  color: var(--jyiai-text-light);
+  font-size: 0.875rem;
+  border-radius: var(--jyiai-radius);
+  transition: var(--jyiai-transition);
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.jyiai-dropdown-content li a:hover,
+.jyiai-dropdown-content li button:hover {
+  background-color: var(--jyiai-hover-light);
+}
+
+.jyiai-dropdown-content li:not(:last-child) {
+  margin-bottom: 0.25rem;
+}
+
+@keyframes jyiai-dropdown-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.jyiai-dropdown:focus-within .jyiai-dropdown-content {
+  display: block;
+}
+
+/* 新的下拉菜单实现 */
+.jyiai-dropdown-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.jyiai-dropdown-toggle::after {
+  content: "";
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  margin-left: 0.25rem;
+  transition: transform 0.2s ease;
+}
+
+.jyiai-dropdown.active .jyiai-dropdown-toggle::after {
+  transform: rotate(-135deg);
+}
+
+.jyiai-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  margin-top: 0.25rem;
+  background-color: var(--jyiai-bg-light);
+  border: 1px solid var(--jyiai-border-light);
+  border-radius: var(--jyiai-radius);
+  box-shadow: var(--jyiai-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+.jyiai-dropdown.active .jyiai-dropdown-menu,
+.jyiai-dropdown:focus-within .jyiai-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.jyiai-dropdown-menu-end {
+  left: auto;
+  right: 0;
+}
+
+.jyiai-dropdown-menu-top {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  transform: translateY(10px);
+}
+
+.jyiai-dropdown.active .jyiai-dropdown-menu-top {
+  transform: translateY(0);
+}
+
+.jyiai-dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  color: var(--jyiai-text-light);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  gap: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.jyiai-dropdown-item:hover {
+  background-color: var(--jyiai-hover-light);
+}
+
+.jyiai-dropdown-item.active {
+  background-color: var(--jyiai-primary-light);
+  color: var(--jyiai-primary);
+}
+
+.jyiai-dropdown-divider {
+  height: 1px;
+  margin: 0.5rem 0;
+  background-color: var(--jyiai-border-light);
+}
+
+.jyiai-dropdown-header {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--jyiai-text-muted);
+  text-transform: uppercase;
+}
+
+.jyiai-dropdown-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+}
+
+.jyiai-dropdown-label {
+  margin-left: auto;
+  font-size: 0.75rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 1rem;
+  background-color: var(--jyiai-bg-muted);
+  color: var(--jyiai-text-muted);
+}
+
+/* 语言选择器样式 */
+.jyiai-lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: var(--jyiai-radius);
+  cursor: pointer;
+  transition: var(--jyiai-transition);
+}
+
+.jyiai-lang-btn:hover {
+  background-color: var(--jyiai-hover-light);
+}
+
+.jyiai-lang-flag {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.jyiai-lang-name {
+  font-size: 0.875rem;
+}
+
+/* 暗色模式 */
+[data-theme="dark"] .jyiai-dropdown-content {
+  background-color: var(--jyiai-bg-dark);
+  border-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-dropdown-content li a,
+[data-theme="dark"] .jyiai-dropdown-content li button {
+  color: var(--jyiai-text-dark);
+}
+
+[data-theme="dark"] .jyiai-dropdown-content li a:hover,
+[data-theme="dark"] .jyiai-dropdown-content li button:hover {
+  background-color: var(--jyiai-hover-dark);
+}
+
+[data-theme="dark"] .jyiai-dropdown-menu {
+  background-color: var(--jyiai-bg-dark);
+  border-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-dropdown-item {
+  color: var(--jyiai-text-dark);
+}
+
+[data-theme="dark"] .jyiai-dropdown-item:hover {
+  background-color: var(--jyiai-hover-dark);
+}
+
+[data-theme="dark"] .jyiai-dropdown-divider {
+  background-color: var(--jyiai-border-dark);
+}
+
+[data-theme="dark"] .jyiai-dropdown-header {
+  color: var(--jyiai-text-muted-dark);
+}
+
+[data-theme="dark"] .jyiai-dropdown-label {
+  background-color: var(--jyiai-bg-muted-dark);
+  color: var(--jyiai-text-muted-dark);
+}
+
+[data-theme="dark"] .jyiai-lang-btn:hover {
+  background-color: var(--jyiai-hover-dark);
+}

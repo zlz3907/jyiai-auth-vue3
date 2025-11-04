@@ -8,8 +8,7 @@ import i18n from './locales'
 import './assets/styles/index.css'
 
 const app: VueApp = createApp(App)
-
 app.use(i18n)
 app.use(router)
 
-app.mount('#app') 
+app.mount('#app')
